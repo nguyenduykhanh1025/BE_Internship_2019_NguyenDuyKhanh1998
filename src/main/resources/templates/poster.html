@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Poster</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Notable&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lacquer&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+</head>
+<body>
+<div class="wrapper">
+    <div class="header container">
+        <div class="search">
+
+        </div>
+        <ul class="row">
+            <li class="col-lg-1">
+            </li>
+            <li class="col-lg-1">
+            </li>
+            <li class="col-lg-1">
+            </li>
+            <li class="col-lg-1">
+            </li>
+            <li class="col-lg-1">
+            </li>
+            <li class="col-lg-1 center">
+                <h1 style='font-family: "Notable", sans-serif;'><a href="/page/" id="index">Kunlez</a></h1>
+            </li>
+            <li class="col-lg-1"></li>
+            <li class="col-lg-1"></li>
+            <li class="col-lg-1"></li>
+            <li class="col-lg-1">
+
+            </li>
+            <li class="col-lg-1 login-register">
+                <a href="/page/login">Login</a>
+            </li>
+            <li class="col-lg-1 login-register">
+                <a href="#">Register</a>
+            </li>
+        </ul>
+    </div>
+    <hr>
+    <div class="content-wrapper container">
+        <div class="content-wrapper-top row">
+            <div class="col-lg-8">
+                <a href="/page/user" id="btn-account">
+
+                </a>
+            </div>
+
+            <select name="orderby cars" class="orderby col-lg-4 custom-select" id="select-sort">
+                <option value="sort-item" selected="selected">Sort item</option>
+                <option value="sort-item-new" id="btn-sort-item-new">Sort by item new</option>
+                <option value="sort-item-follow-name" id="btn-sort-item-follow-name">Sort by name item</option>
+            </select>
+        </div>
+        <hr>
+        <div class="content-wrapper-center row">
+            <div class="sticky col-lg-4">
+                <div class="search">
+                    <h4>Search</h4>
+                    <hr>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Search product..." id="value-search">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="btn-search">Search</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-categories">
+                    <h4>Product categories</h4>
+                    <hr>
+                    <ul id="list-categories">
+
+                    </ul>
+                </div>
+                <div class="product-categories">
+                    <h4>Pagination</h4>
+                    <hr>
+                    <p>Item display: </p> <span id="output-range"></span>
+                    <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+                    <ul class="pagination" id="pagination">
+
+                    </ul>
+                </div>
+            </div>
+            <div class="list-book col-lg-8">
+                <div class="container-fluid">
+                    <div class="row list-row-item" id="list-book">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/custom/common.js"></script>
+<script src="/js/ajax/posterAJAX.js"></script>
+<script src="/js/custom/indexCustom.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+.header ul li {
+    list-style: none;
+    color: black;
+}
+.header ul li a {
+    color: black;
+}
+.header ul li a i {
+    font-size: 22px;
+    bottom: 0px;
+    position: absolute;
+}
+

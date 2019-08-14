@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>login</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+	<link href="https://fonts.googleapis.com/css?family=Notable&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/css/login.css">
+</head>
+<body>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				...
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>
+	<div class="container wrapper">
+		<div id="alert-information"></div>
+		<div class="login-register row">
+			<div class="title">
+				<h2 class="login" id="btn-content-login">Đăng nhập</h2>
+				<h2 class="register" id="btn-content-register">Đăng kí</h2>
+			</div>
+			<div class="content">
+				<div class="content-login" id="content-login">
+					<div class="form-group">
+						<h4 class="tittle-login">Email</h4>
+				      <input type="text" class="form-control" id="email-login" placeholder="Email*">
+						<p id="information-email-login" class="information-login"></p>
+						<h4 class="tittle-login">Password</h4>
+				      <input type="password" class="form-control" id="password-login" placeholder="Password*">
+						<p id="information-password-login" class="information-login"></p>
+				    </div>
+				    <div class="forgor">
+				    	<a href="" id="forgot-pass"><p>Forgot Password?</p></a>
+				    </div>
+				    <div class="btn-login" id="btn-to-login">Login</div>
+				</div>
+				<div class="content-resgister" id="content-register">
+					<p id="text-Required-information">*Thông tin yêu cầu</p>
+					<div class="number-phone">
+						<h4 class="tittle">Email</h4>
+						<span class="information-span">( *Enter your email)</span>
+				      	<input type="text" class="form-control" id="number-phone-register" placeholder="email*">
+						<p id="information-email-register" class="information-login"></p>
+					</div>
+					<div class="password">
+						<h4 class="tittle">Pass word</h4>
+						<span class="information-span">( *Enter your password)</span>
+				      	<input type="password" class="form-control" id="pass-word-register" placeholder="Pass word*">
+						<p id="information-password-register" class="information-login"></p>
+					</div>
+
+					<div class="first-name">
+						<h4 class="tittle">First name</h4>
+						<span class="information-span">( *Enter your first name)</span>
+						<input type="text" class="form-control" id="first-name-register" placeholder="First name*">
+						<p id="information-first-name-register" class="information-login"></p>
+					</div>
+					<div class="last-name">
+						<h4 class="tittle">Last name</h4>
+						<span class="information-span">( *Enter your last name)</span>
+						<input type="text" class="form-control" id="last-name-register" placeholder="Last name*">
+						<p id="information-last-name-register" class="information-login"></p>
+					</div>
+					<div class="link-img">
+						<h4 class="tittle">Link avatar</h4>
+						<span class="information-span">( *Enter your link avatar)</span>
+						<input type="text" class="form-control" id="link-avatar-register" placeholder="Link img*">
+						<p id="information-link-avatar-register" class="information-login"></p>
+					</div>
+					<div class="btn-register" id="btn-register">Đăng Kí</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="/js/ajax/loginAJAX.js"></script>
+	<script src="/js/ajax/registerAJAX.js"></script>
+	<script src="/js/custom/login.js"></script>
+	<script src="/js/custom/common.js"></script>
+
+</body>
+</html>

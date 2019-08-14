@@ -1,0 +1,117 @@
+#wrapper-header {
+    height: 130px;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+}
+
+
+#wrapper-footer {
+    height: 100px;
+    background-color: black;
+    margin-top: 50px;
+}
+.btn-add-blog button {
+    float: right;
+}
+
+.content-main {
+    margin-top: 50px;
+}
+
+.content-main .img-blog img {
+    width: 100%;
+    height: auto;
+}
+.content-main button {
+	width: 100%;
+}
+
+.content-bottom {
+    margin-top: 20px;
+}
+
+/*// create blog*/
+
+.tags-blog button {
+    width: 100px;
+    margin-left: 30px;
+}
+
+.tags-blog select {
+    height: 30px;
+    min-width: 200px;
+}
+.tags-blog-new #tag-news {
+    width: 200px;
+}
+
+#alert-infomation {position: fixed;}
+
+#upload-blog {
+    display: none;
+}
+#upload-blog-update{
+    display:none;
+}
+td.title-blog {
+    max-width: 250px;
+}
+div#alert-infomation {
+    top: 0px;
+    left: 0px;
+    max-width: 260px;
+}
+
+#list-tags-opption li {
+    list-style: none;
+    margin: 10px;
+    font-size: 16px;
+    text-align: center;
+    width: max-content;
+    padding-left: 40px;
+    padding-right: 40px;
+    background-color: black;
+    color: white;
+    font-weight: 500;
+    border-radius: 30px;
+    cursor: pointer;
+}
+#list-author-opption li {
+    list-style: none;
+    margin: 10px;
+    font-size: 16px;
+    text-align: center;
+    width: max-content;
+    padding-left: 40px;
+    padding-right: 40px;
+    background-color: black;
+    color: white;
+    font-weight: 500;
+    border-radius: 30px;
+    cursor: pointer;
+}
+.node {
+    display: inline;
+    color: red;
+    font-size: 12px;
+    font-weight: 100;
+    margin-left: 5px;
+}
+.ck.ck-reset.ck-editor.ck-rounded-corners {
+    width: 100%;
+}
+
+.ck-blurred.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline {
+    height: 200px;
+}
+.upload-blog select {
+    height: max-content;
+}
+.information {
+    width: 370px;
+    margin: auto;
+    font-size: 12px;
+    color: red;
+}
+#list-tags-opption li:hover {
+    background-color: #999966;
+}

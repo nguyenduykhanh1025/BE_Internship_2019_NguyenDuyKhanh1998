@@ -1,10 +1,12 @@
 package com.kunlez.bookstore.services;
 
 import com.kunlez.bookstore.DTO.RegisterDTO;
+import com.kunlez.bookstore.common.CommonMethot;
 import com.kunlez.bookstore.configurations.TokenProvider;
 import com.kunlez.bookstore.converters.base.Converter;
 import com.kunlez.bookstore.entity.RoleEntity;
 import com.kunlez.bookstore.entity.UserEntity;
+import com.kunlez.bookstore.exception.userException.EmailException;
 import com.kunlez.bookstore.exception.userException.UserIsExistException;
 import com.kunlez.bookstore.repository.RoleRepository;
 import com.kunlez.bookstore.repository.UserRepository;
@@ -42,8 +44,12 @@ public class RegisterServices {
     private RoleRepository roleRepository;
 
     public ResponseEntity<?> post(@RequestBody RegisterDTO registerDTO, HttpServletRequest request){
+
         if(userRepository.findByEmail(registerDTO.getEmail())!=null){
             throw new UserIsExistException();
+        }
+        if(!CommonMethot.isFormatEmail(registerDTO.getEmail())){
+            throw new EmailException();
         }
 
         UserEntity userEntity = registerDTOToUserEntityConverter.convert(registerDTO);

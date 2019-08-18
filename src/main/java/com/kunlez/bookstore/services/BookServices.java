@@ -21,9 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 import java.util.*;
 
@@ -217,6 +215,10 @@ public class BookServices {
     public ResponseEntity<?> update(BookDTO bookDTO, String token){
         // client send title & description & nameCategories & linkImage & nameAuthor
         // set categories
+
+        if(bookRepository.findById(bookDTO.getId()) == null){
+            throw new BookNotFound();
+        }
 
         CategoriesDTO[] categoriesDTOS = new CategoriesDTO[bookDTO.getNameCategories().length];
 

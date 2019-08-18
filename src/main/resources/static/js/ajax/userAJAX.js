@@ -68,40 +68,45 @@ document.addEventListener('DOMContentLoaded', function() {
         success: function(data) {
             var dataHTML = "";
 
-            data.forEach(function(element) {
-                var dataHTMLTags = "";
-                element.categoriesDTOS.forEach(function(categories) {
-                    var data = '<li><a href="#">' + categories.name + '</a></li>';
-                    dataHTMLTags += data;
+            if (data.length == 0) {
+                var elementListBook = document.getElementById("body-list-post-user");
+                elementListBook.innerHTML = "<h2 style='color:#ababab'>No item were found....</h2>"
+            } else {
+                data.forEach(function(element) {
+                    var dataHTMLTags = "";
+                    element.categoriesDTOS.forEach(function(categories) {
+                        var data = '<li><a href="#">' + categories.name + '</a></li>';
+                        dataHTMLTags += data;
+                    });
+
+                    // get role of user
+                    var btnElementEnable = "";
+                    if (getCookie("ROLE").includes("ROLE_ADMIN")) {
+                        if (!element.enable)
+                            btnElementEnable = '<td class="col-lg-1 btn-enable-book"><button type="button" class="btn btn-warning" onClick="enableBook(this.id)" id=enable-' + element.id + '>Enable</button></td>';
+                    }
+                    var data = '<tr class="row" id="post-' + element.id + '">' +
+                        '<td class="title-blog col-lg-1"><h6>' + element.title + '</h6></td>' +
+                        '<td class="tag-blog col-lg-2">' +
+                        '<div class="dropdown">' +
+                        '<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Categories' +
+                        '<span class="caret"></span></button>' +
+                        '<ul class="dropdown-menu" id="list-tags-user-post">' +
+                        dataHTMLTags +
+                        '</ul>' +
+                        '</div>' +
+                        '</td>' +
+                        '<td class="img-blog col-lg-2"><img src="' + element.linkImage + '"></td>' +
+                        '<td class="content-blog col-lg-3"><div style="max-height: 200px;overflow: scroll;" id="comment">' + element.description + '</div></td>' +
+                        '<td class="col-lg-1 btn-delete-blog"><button type="button" class="btn btn-danger btn-delete-post" onClick="deleteBookFollowID(this.id)" id=' + element.id + '>Delete</button></td>' +
+                        '<td class="col-lg-1 btn-update-blog"><button type="button" class="btn btn-primary" onClick="editBookFollowID(this.id)" id=' + element.id + '>Edit</button></td>' +
+                        btnElementEnable +
+                        '</tr>';
+
+                    dataHTML += data;
                 });
-
-                // get role of user
-                var btnElementEnable = "";
-                if (getCookie("ROLE").includes("ROLE_ADMIN")) {
-                    if (!element.enable)
-                        btnElementEnable = '<td class="col-lg-1 btn-enable-book"><button type="button" class="btn btn-warning" onClick="enableBook(this.id)" id=enable-' + element.id + '>Enable</button></td>';
-                }
-                var data = '<tr class="row" id="post-' + element.id + '">' +
-                    '<td class="title-blog col-lg-1"><h6>' + element.title + '</h6></td>' +
-                    '<td class="tag-blog col-lg-2">' +
-                    '<div class="dropdown">' +
-                    '<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Categories' +
-                    '<span class="caret"></span></button>' +
-                    '<ul class="dropdown-menu" id="list-tags-user-post">' +
-                    dataHTMLTags +
-                    '</ul>' +
-                    '</div>' +
-                    '</td>' +
-                    '<td class="img-blog col-lg-2"><img src="' + element.linkImage + '"></td>' +
-                    '<td class="content-blog col-lg-3"><div style="max-height: 200px;overflow: scroll;" id="comment">' + element.description + '</div></td>' +
-                    '<td class="col-lg-1 btn-delete-blog"><button type="button" class="btn btn-danger btn-delete-post" onClick="deleteBookFollowID(this.id)" id=' + element.id + '>Delete</button></td>' +
-                    '<td class="col-lg-1 btn-update-blog"><button type="button" class="btn btn-primary" onClick="editBookFollowID(this.id)" id=' + element.id + '>Edit</button></td>' +
-                    btnElementEnable +
-                    '</tr>';
-
-                dataHTML += data;
-            });
-            document.getElementById("body-list-post-user").innerHTML = dataHTML;
+                document.getElementById("body-list-post-user").innerHTML = dataHTML;
+            }
         },
         error: function(e) {
 

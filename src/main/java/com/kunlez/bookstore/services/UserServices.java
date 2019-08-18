@@ -2,6 +2,7 @@ package com.kunlez.bookstore.services;
 
 import com.kunlez.bookstore.DTO.RegisterDTO;
 import com.kunlez.bookstore.common.CommonMethot;
+import com.kunlez.bookstore.configurations.TokenProvider;
 import com.kunlez.bookstore.converters.base.Converter;
 import com.kunlez.bookstore.entity.UserEntity;
 import com.kunlez.bookstore.exception.userException.UserNotfoundException;
@@ -21,6 +22,9 @@ public class UserServices {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private TokenProvider jwtTokenUtil;
 
     public List<RegisterDTO> getAllUser(){
         List<RegisterDTO> registerDTOList = new ArrayList<>();
@@ -43,11 +47,12 @@ public class UserServices {
         userRepository.save(userEntity);
     }
 
-    public ResponseEntity<?> get(){
+    public ResponseEntity<?> get(String token){
 
-        if(CommonMethot.getUserName().equals("")){
+        if(token.equals("") || token == null ){
             throw new UserNotfoundException();
         }
-        return ResponseEntity.ok(userEntityToRegisterDTOConverter.convert(userRepository.findByEmail(CommonMethot.getUserName())));
+        String username = CommonMethot.getUserName(token, jwtTokenUtil);
+        return ResponseEntity.ok(userEntityToRegisterDTOConverter.convert(userRepository.findByEmail(username)));
     }
 }

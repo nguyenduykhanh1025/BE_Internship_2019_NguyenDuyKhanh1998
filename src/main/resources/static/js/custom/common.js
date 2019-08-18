@@ -23,6 +23,9 @@ function isBlankString(value){
 document.addEventListener('DOMContentLoaded', function() {
     if(localStorage.getItem('Authorization') != null){
     $.ajax({
+            headers: {
+                            "Authorization": localStorage.getItem('Authorization')
+                        },
             url: "/api/users",
             type: "GET",
             dataType: 'json',

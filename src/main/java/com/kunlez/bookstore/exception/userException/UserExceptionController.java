@@ -21,4 +21,9 @@ public class UserExceptionController {
     public ResponseEntity<Object> exception(UserIsNotEnable exception) {
         return new ResponseEntity<>("user is not enable", HttpStatus.LOCKED);
     }
+
+    @ExceptionHandler(value = EmailException.class)
+    public ResponseEntity<Object> exception(EmailException exception) {
+        return new ResponseEntity<>("email not format", HttpStatus.NOT_EXTENDED);
+    }
 }

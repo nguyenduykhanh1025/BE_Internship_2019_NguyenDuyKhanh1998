@@ -1,7 +1,9 @@
 package com.kunlez.bookstore.controller;
 
 import com.kunlez.bookstore.DTO.LoginDTO;
+import com.kunlez.bookstore.common.CommonMethot;
 import com.kunlez.bookstore.configurations.TokenProvider;
+import com.kunlez.bookstore.exception.userException.EmailException;
 import com.kunlez.bookstore.exception.userException.UserIsNotEnable;
 import com.kunlez.bookstore.models.AuthToken;
 import com.kunlez.bookstore.repository.UserRepository;
@@ -35,6 +37,9 @@ public class AuthenticationController {
 
         if(!userRepository.findByEmail(login.getEmail()).isEnable()){
             throw new UserIsNotEnable();
+        }
+        if(!CommonMethot.isFormatEmail(login.getEmail())){
+            throw new EmailException();
         }
 
         final Authentication authentication = authenticationManager.authenticate(

@@ -17,8 +17,8 @@ public class UserController {
     private UserServices userServices;
 
     @GetMapping
-    public ResponseEntity<?> get(){
-        return userServices.get();
+    public ResponseEntity<?> get(@RequestHeader("Authorization") String token){
+        return userServices.get(token);
     }
 
     @GetMapping("/all")

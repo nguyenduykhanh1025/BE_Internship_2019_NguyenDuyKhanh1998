@@ -15,13 +15,13 @@ document.addEventListener('DOMContentLoaded', function() {
             // list author
             var dataAuthorList = "";
             data.authorDTOS.forEach(function(element) {
-                dataAuthorList += '<li class="author-item"><a href="/page/author/' + element.name + '"><span class="badge badge-dark">' + element.name + '</span></a></li>';
+                dataAuthorList += '<li class="author-item"><a href="/author/' + element.name + '"><span class="badge badge-dark">' + element.name + '</span></a></li>';
             });
 
             // list categories
             var dataCategoriesList = "";
             data.categoriesDTOS.forEach(function(element) {
-                dataCategoriesList = '<li class="author-item"><a href="/page/author/' + element.name + '"><span class="badge badge-dark">' + element.name + '</span></a></li>';
+                dataCategoriesList = '<li class="author-item"><a href="/author/' + element.name + '"><span class="badge badge-dark">' + element.name + '</span></a></li>';
             });
             var dataHTML = '<div class="content-item row">' +
                 '<div class="image-item col-lg-4">' +
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 '<h1 class="tittle">' + data.title + '</h1>' +
                 '<hr class="hr-title">' +
                 '<div class="date-poster">' +
-                '<div class="poster"><i class="fa fa-user"></i> <a href="/page/poster/' + data.namePoster + '">' + data.namePoster + '</a> <i class="fa fa-clock-o"></i> <time datetime="2008-02-14 20:00">' + formatDate(new Date(data.createdAt)) + '</time></div>' +
+                '<div class="poster"><i class="fa fa-user"></i> <a href="/poster/' + data.namePoster + '">' + data.namePoster + '</a> <i class="fa fa-clock-o"></i> <time datetime="2008-02-14 20:00">' + formatDate(new Date(data.createdAt)) + '</time></div>' +
                 '<div class="descript">' +
                 data.description +
                 '</div>' +

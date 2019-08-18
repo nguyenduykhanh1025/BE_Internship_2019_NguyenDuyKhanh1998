@@ -1,5 +1,5 @@
 document.getElementById('btn-to-be-continue').addEventListener('click', function () {
-    location.replace("/page/login");
+    location.replace("/login");
 });
 
 function getCookie(cname) {

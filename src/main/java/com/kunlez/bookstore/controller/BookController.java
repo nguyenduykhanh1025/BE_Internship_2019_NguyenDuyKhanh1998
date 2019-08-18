@@ -46,7 +46,6 @@ public class BookController {
     @Secured("ROLE_MEMBER")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteBook(@PathVariable int id, @RequestHeader("Authorization") String token){
-        System.out.println(token);
        return bookServices.deleteBook(id, token);
     }
 

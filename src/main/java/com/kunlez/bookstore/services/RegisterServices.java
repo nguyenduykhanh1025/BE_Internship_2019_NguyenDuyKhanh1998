@@ -67,7 +67,7 @@ public class RegisterServices {
         msg.setTo(registerDTO.getEmail());
 
         msg.setSubject("click link to config: ");
-        msg.setText(request.getRequestURL().toString() + "/" + token);
+        msg.setText("blablablablab");
 
         javaMailSender.send(msg);
 

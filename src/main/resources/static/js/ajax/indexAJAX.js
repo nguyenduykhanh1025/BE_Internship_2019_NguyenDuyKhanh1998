@@ -85,7 +85,7 @@ document.getElementById('btn-search').addEventListener('click', function() {
 
             if (data.length == 0) {
                 var elementListBook = document.getElementById("list-book");
-                elementListBook.innerHTML = "<h2 style='color:#ababab'>No results were found....</h2>"
+                elementListBook.innerHTML = "<h2 style='color:#ababab'>No results were found....</h2>";
             } else {
                 var elementListBook = document.getElementById("list-book");
                 var dataHTML = "";
@@ -133,32 +133,36 @@ function getBookFollowCategories(Categories) {
         type: "GET",
         dataType: 'json',
         success: function(data) {
-            var elementListBook = document.getElementById("list-book");
-            var dataHTML = "";
-            data.forEach(function(element) {
 
-                var dataAuthorHTML = "";
-                element.authorDTOS.forEach(function(author) {
-                    var dataItemAuthor = '<li class="author-item badge badge-dark" ><a href="/page/author/' + author.name + '">' + author.name + '</a></li>';
-                    dataAuthorHTML += dataItemAuthor;
+            if (data.length === 0) {
+                var elementListBook = document.getElementById("list-book");
+                elementListBook.innerHTML = "<h2 style='color:#ababab'>No results were found....</h2>";
+            } else {
+                var elementListBook = document.getElementById("list-book");
+                var dataHTML = "";
+                data.forEach(function(element) {
+
+                    var dataAuthorHTML = "";
+                    element.authorDTOS.forEach(function(author) {
+                        var dataItemAuthor = '<li class="author-item badge badge-dark" ><a href="/page/author/' + author.name + '">' + author.name + '</a></li>';
+                        dataAuthorHTML += dataItemAuthor;
+                    });
+
+                    var dataItem = ' <div class="col-lg-4 item">' +
+                        '<a href="/detail/' + element.id + '"><img src="' + element.linkImage + '" class="img-item"></a>' +
+                        '<h5 class="title-item"><a href="#">' + element.title + '</a></h5>' +
+                        '<div class="author">' +
+                        '<ul class="list-author">' +
+                        dataAuthorHTML +
+                        '</ul>' +
+                        '</div>' +
+                        '</div>';
+                    dataHTML += dataItem;
                 });
+                elementListBook.innerHTML = dataHTML;
 
-                var dataItem = ' <div class="col-lg-4 item">' +
-                    '<a href="/detail/' + element.id + '"><img src="' + element.linkImage + '" class="img-item"></a>' +
-                    '<h5 class="title-item"><a href="#">' + element.title + '</a></h5>' +
-                    '<div class="author">' +
-                    '<ul class="list-author">' +
-                    dataAuthorHTML +
-                    '</ul>' +
-                    '</div>' +
-                    '</div>';
-                dataHTML += dataItem;
-            });
-            elementListBook.innerHTML = dataHTML;
-
-            loadPaginationForPage(getLengthItemBook(), 1, idCategories, getSort());
-
-
+                loadPaginationForPage(getLengthItemBook(), 1, idCategories, getSort());
+            }
             // clear class active
             // clear active
             var elementListCategoriesPage = document.getElementsByClassName('categories-link');
@@ -168,7 +172,6 @@ function getBookFollowCategories(Categories) {
             }
             // add active
             document.getElementById(Categories).classList.add('categories-active');
-
         },
         error: function(e) {
 

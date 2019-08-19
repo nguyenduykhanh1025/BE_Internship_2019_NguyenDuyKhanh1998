@@ -14,20 +14,17 @@ function getListPost(nameTag) {
                 success: function(data) {
                     var elementListBook = document.getElementById("list-book");
                     var dataHTML = "";
+
+                    console.log(nameTag);
+                    dataHTML += '<h2 style="text-align:center;width: 100%;"><p  style="display:inline;font-size: 18px;">book of author: </p>' + nameTag + '</h2>';
                     data.forEach(function(element) {
 
-                        var dataAuthorHTML = "";
-                        element.authorDTOS.forEach(function(author) {
-                            var dataItemAuthor = '<li class="author-item"><a href="#" class="badge badge-dark">' + author.name + '</a></li>';
-                            dataAuthorHTML += dataItemAuthor;
-                        });
 
                         var dataItem = ' <div class="col-lg-4 item">' +
-                            '<a href="/page/detail/' + element.id + '"><img src="' + element.linkImage + '" class="img-item"></a>' +
+                            '<a href="/detail/' + element.id + '"><img src="' + element.linkImage + '" class="img-item"></a>' +
                             '<h5 class="title-item"><a href="#">' + element.title + '</a></h5>' +
                             '<div class="author">' +
                             '<ul class="list-author">' +
-                            dataAuthorHTML +
                             '</ul>' +
                             '</div>' +
                             '</div>';

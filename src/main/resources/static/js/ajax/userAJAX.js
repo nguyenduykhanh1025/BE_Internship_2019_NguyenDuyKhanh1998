@@ -334,7 +334,6 @@ document.getElementById('btn-check-user').addEventListener('click', function() {
         type: "GET",
         dataType: 'json',
         success: function(data) {
-            console.log(data);
             var dataHTML = "";
 
             data.forEach(function(element) {
@@ -345,14 +344,20 @@ document.getElementById('btn-check-user').addEventListener('click', function() {
                 } else {
                     btnElementEnable = '<td class="col-lg-2 btn-enable-user" id=enable-user-' + element.id + '><button type="button" class="btn btn-warning" onClick="enableUser(this.id)" id=user-' + element.id + '>Enable</button></td>';
                 }
+
+                var btnElementAddAdmin = "";
+                if(element.listNameRole.includes("ROLE_ADMIN")){
+                    btnElementAddAdmin = '<td class="col-lg-2 btn-disable-admin" id=disable-admin-' + element.id + '><button type="button" class="btn btn-warning" onClick="disableAdmin(this.id)" id=admin-' + element.id + '>Disable Admin</button></td>';
+                } else {
+                    btnElementAddAdmin = '<td class="col-lg-2 btn-enable-admin" id=enable-admin-' + element.id + '><button type="button" class="btn btn-warning" onClick="enableAdmin(this.id)" id=admin-' + element.id + '>Enable Admin</button></td>';
+                }
                 var data = '<tr class="row" id="post-' + element.id + '">' +
-                    '<td class="title-blog col-lg-3"><h6>' + element.email + '</h6></td>' +
+                    '<td class="title-blog col-lg-4"><h6>' + element.email + '</h6></td>' +
                     '<td class="tag-blog col-lg-2">' +
                     element.firstName + " " + element.lastName +
                     '</td>' +
-                    '<td class="img-blog col-lg-2"><img src="' + element.linkAvatar + '"></td>' +
-                    '<td class="content-blog col-lg-3"><div style="max-height: 200px;overflow: scroll;" id="comment">' + element.description + '</div></td>' +
-                    btnElementEnable +
+                    '<td class="img-blog col-lg-1"><img src="' + element.linkAvatar + '"></td>' +
+                    btnElementEnable + btnElementAddAdmin +
                     '</tr>';
 
                 dataHTML += data;
@@ -498,6 +503,42 @@ function enableUser(valueId) {
         }
     });
 
+}
+
+
+function enableAdmin(valueId) {
+    var id = valueId.split("-")[valueId.split("-").length - 1];
+    $.ajax({
+        url: "/api/users/enableAdmin/" + id,
+        type: "PUT",
+        success: function() {
+            // transfer disable
+            console.log(valueId);
+            var elementDivOfUserDisable = document.getElementById("enable-" + valueId);
+            console.log(elementDivOfUserDisable);
+            elementDivOfUserDisable.innerHTML = '<td class="col-lg-2 btn-disable-admin" id=disable-' + valueId + '><button type="button" class="btn btn-warning" onClick="disableAdmin(this.id)" id=' + valueId + '>Disable Admin</button></td>';
+            elementDivOfUserDisable.id = "disable-" + valueId;
+        },
+        error: function(e) {
+            console.log(e);
+        }
+    });
+}
+
+function disableAdmin(valueId) {
+    var id = valueId.split("-")[valueId.split("-").length - 1];
+     $.ajax({
+            url: "/api/users/disableAdmin/" + id,
+            type: "PUT",
+            success: function() {
+                var elementDivOfUserDisable = document.getElementById("disable-" + valueId);
+                elementDivOfUserDisable.innerHTML = '<td class="col-lg-2 btn-enable-admin" id=enable-' + valueId + '><button type="button" class="btn btn-warning" onClick="enableAdmin(this.id)" id=' + valueId + '>Enable Admin</button></td>';
+                elementDivOfUserDisable.id = "enable-" + valueId;
+            },
+            error: function(e) {
+                console.log(e);
+            }
+        });
 }
 
 function clearContentUpBook() {

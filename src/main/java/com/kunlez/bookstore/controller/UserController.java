@@ -37,4 +37,16 @@ public class UserController {
     public ResponseEntity<?> putEnableForUser(@PathVariable int idUser){
         return userServices.putEnableForUser(idUser);
     }
+
+    @Secured("ROLE_ADMIN")
+    @PutMapping("/enableAdmin/{idUser}")
+    public ResponseEntity<?> putEnableForAdmin(@PathVariable int idUser){
+        return userServices.putEnableForAdmin(idUser);
+    }
+
+    @Secured("ROLE_ADMIN")
+    @PutMapping("/disableAdmin/{idUser}")
+    public ResponseEntity<?> putDisableForAdmin(@PathVariable int idUser){
+        return userServices.putDisableForAdmin(idUser);
+    }
 }

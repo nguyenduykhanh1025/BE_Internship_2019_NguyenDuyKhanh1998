@@ -54,8 +54,8 @@ public class BookController {
     public BookDTO post(@RequestBody @Validated BookDTO bookDTO){
         bookServices.post(bookDTO);
         return bookDTO;
-
     }
+
     @Secured({"ROLE_MEMBER"})
     @PutMapping
     public ResponseEntity<?> update(@RequestBody @Validated BookDTO bookDTO, @RequestHeader("Authorization") String token){

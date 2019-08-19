@@ -68,14 +68,15 @@ function loadPaginationForPage(numberItem,indexPage,idCategories,valueSort) {
         success: function(data) {
 
             var elementHTML = document.getElementById('pagination');
-            var dataHTML = '<li class="page-item"><a class="page-link">Previous</a></li>';
+            var dataHTML = '<li class="page-item"><a class="page-link" onClick="onClickIndexPage(this.id)" id="index_previous">Previous</a></li>';
             dataHTML += '<li class="page-item"><a class="page-link page-link-active" onClick="onClickIndexPage(this.id)" id = index_' + 1 + '>1</a></li>';
 
             var lengthIndexPage = data.length / numberItem % 2 == 0 ? data.length / numberItem : data.length / numberItem + 1;
+
             for (var i = 2; i <= lengthIndexPage; ++i) {
-                dataHTML += '<li class="page-item"><a class="page-link" onClick="onClickIndexPage(this.id)" id= index_' + i + '>' + i + '</a></li>';
+                dataHTML += '<li class="page-item"><a class="page-link"  onClick="onClickIndexPage(this.id)" id= index_' + i + '>' + i + '</a></li>';
             }
-            dataHTML += ' <li class="page-item"><a class="page-link">Next</a></li>';
+            dataHTML += ' <li class="page-item"><a class="page-link" onClick="onClickIndexPage(this.id)" id="index_next">Next</a></li>';
 
             elementHTML.innerHTML = dataHTML;
 
@@ -88,6 +89,13 @@ function loadPaginationForPage(numberItem,indexPage,idCategories,valueSort) {
 
 function onClickIndexPage(elementIndexPag){
     var index = elementIndexPag.split('_')[1];
+
+    if(index === "previous"){
+        index = getIndexCurrent() === 1 ? 1 : getIndexCurrent() - 1;
+    }
+    if(index === "next"){
+        index = getIndexCurrent() === document.getElementsByClassName("page-link").length - 2 ? getIndexCurrent() : getIndexCurrent() + 1;
+    }
 
     $.ajax({
         contentType: 'application/json',
@@ -130,7 +138,7 @@ function onClickIndexPage(elementIndexPag){
             }
 
             // add active
-            document.getElementById(elementIndexPag).classList.add('page-link-active');
+            document.getElementById("index_" + index).classList.add('page-link-active');
 
         },
         error: function(e) {
@@ -163,4 +171,13 @@ function getIdCategories(){
         return -1;
     }
     return elementActive.id.split("-")[elementActive.id.split("-").length - 1];
+}
+
+function getIndexCurrent(){
+     var elementListIndexPage = document.getElementsByClassName("page-link");
+            for(var i = 0; i< elementListIndexPage.length; ++i){
+                if(elementListIndexPage[i].classList.contains("page-link-active")){
+                    return i;
+                }
+            }
 }

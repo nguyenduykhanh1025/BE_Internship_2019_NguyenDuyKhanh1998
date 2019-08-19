@@ -32,17 +32,17 @@ public class BookDTO {
     @NotEmpty
     private String[] nameCategories;
 
-    @JsonAlias("authors")
-    private AuthorDTO[] authors;
-
-    @JsonAlias("categories")
-    private CategoriesDTO[] categoriesDTOS;
-
     private boolean enable;
 
     private List<CommentDTO> commentDTOList;
 
     private String namePoster;
+
+    @JsonAlias("authors")
+    private AuthorDTO[] authors;
+
+    @JsonAlias("categories")
+    private CategoriesDTO[] categoriesDTOS;
 
     public BookDTO(@NotEmpty int id, @NotEmpty String title, @NotEmpty String description, @NotEmpty Date createdAt, @NotEmpty Date updateAt, @NotEmpty String linkImage, boolean enable) {
         this.id = id;

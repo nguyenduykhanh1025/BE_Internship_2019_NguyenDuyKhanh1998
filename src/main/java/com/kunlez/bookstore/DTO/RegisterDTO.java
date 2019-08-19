@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 public class RegisterDTO {
 
@@ -12,7 +13,6 @@ public class RegisterDTO {
     @NotEmpty
     @NotBlank
     private String email;
-
 
     @NotEmpty
     @NotBlank
@@ -32,7 +32,17 @@ public class RegisterDTO {
 
     private boolean enable;
 
+    private List<String> listNameRole;
+
     public RegisterDTO() {
+    }
+
+    public List<String> getListNameRole() {
+        return listNameRole;
+    }
+
+    public void setListNameRole(List<String> listNameRole) {
+        this.listNameRole = listNameRole;
     }
 
     public int getId() {

@@ -57,6 +57,7 @@ public class RegisterServices {
 
         // default is member
         RoleEntity roleEntity =roleRepository.findByName("ROLE_MEMBER");
+
         userEntity.setRoles(new HashSet<>(Arrays.asList(roleEntity)));
         userRepository.save(userEntity);
 

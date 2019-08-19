@@ -28,13 +28,13 @@ public class UserController {
 
     @Secured("ROLE_ADMIN")
     @PutMapping("/disable/{idUser}")
-    public void putDisableForUser(@PathVariable int idUser){
-        userServices.putDisableForUser(idUser);
+    public ResponseEntity<?> putDisableForUser(@PathVariable int idUser){
+        return userServices.putDisableForUser(idUser);
     }
 
     @Secured("ROLE_ADMIN")
     @PutMapping("/enable/{idUser}")
-    public void putEnableForUser(@PathVariable int idUser){
-        userServices.putEnableForUser(idUser);
+    public ResponseEntity<?> putEnableForUser(@PathVariable int idUser){
+        return userServices.putEnableForUser(idUser);
     }
 }

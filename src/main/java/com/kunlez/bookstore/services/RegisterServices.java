@@ -69,6 +69,7 @@ public class RegisterServices {
         msg.setText(request.getRequestURL().toString() + "/" + token);
 
         javaMailSender.send(msg);
+
         return ResponseEntity.ok(registerDTO);
     }
 }

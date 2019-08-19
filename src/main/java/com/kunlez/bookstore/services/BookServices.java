@@ -180,7 +180,6 @@ public class BookServices {
         // client send title & description & nameCategories & linkImage & nameAuthor
         // set categories
         CategoriesDTO[] categoriesDTOS = new CategoriesDTO[bookDTO.getNameCategories().length];
-        System.out.println(categoriesDTOS.length);
         String[] nameCategories = bookDTO.getNameCategories();
         for(int i = 0; i< bookDTO.getNameCategories().length; ++i){
             CategoriesDTO categoriesDTO = new CategoriesDTO();

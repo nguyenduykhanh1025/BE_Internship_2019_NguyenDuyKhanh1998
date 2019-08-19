@@ -35,16 +35,24 @@ public class UserServices {
         return registerDTOList;
     }
 
-    public void putDisableForUser(int idUser){
+    public ResponseEntity<?> putDisableForUser(int idUser){
+        if(userRepository.findById(idUser) == null){
+            throw new UserNotfoundException();
+        }
         UserEntity userEntity = userRepository.findById(idUser).get();
         userEntity.setEnable(false);
         userRepository.save(userEntity);
+        return ResponseEntity.ok(userEntity);
     }
 
-    public void putEnableForUser(int idUser){
+    public ResponseEntity<?> putEnableForUser(int idUser){
+        if(userRepository.findById(idUser) == null){
+            throw new UserNotfoundException();
+        }
         UserEntity userEntity = userRepository.findById(idUser).get();
         userEntity.setEnable(true);
         userRepository.save(userEntity);
+        return ResponseEntity.ok(userEntity);
     }
 
     public ResponseEntity<?> get(String token){

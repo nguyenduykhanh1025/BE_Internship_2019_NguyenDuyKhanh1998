@@ -115,3 +115,17 @@ div#alert-infomation {
 #list-tags-opption li:hover {
     background-color: #999966;
 }
+
+.cover-list-item {
+    margin-top: 40px;
+}
+.cover-list-item ul.pagination {
+    float: right;
+}
+.check-delete-item {
+    text-align: center;
+}
+
+#btn-delete-item-selected {
+    font-size: 12px;
+}

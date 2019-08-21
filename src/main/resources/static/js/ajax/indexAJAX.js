@@ -1,12 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
-
     var indexPage = 1;
     var numberItem = output.innerHTML;
     // load list book
     // /api/books?numberItem=2&indexPage=1&idCategories=-1&valueSort=0
     $.ajax({
         contentType: 'application/json',
-        url: "/api/books?numberItem=6&indexPage=1&idCategories=-1&valueSort=0",
+        url: "/api/books?numberItem=6&indexPage=1&idCategories=-1&valueSort=0&valueSearch=",
         type: "GET",
         dataType: 'json',
         success: function(data) {
@@ -42,7 +41,6 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log("error");
         }
     });
-
     // load categories
     $.ajax({
         contentType: 'application/json',
@@ -72,13 +70,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
-
+////
 // search in page
 document.getElementById('btn-search').addEventListener('click', function() {
-    var valueSearch = document.getElementById("value-search").value;
+    console.log("co");
     $.ajax({
         contentType: 'application/json',
-        url: "/api/books/search?valueSearch=" + valueSearch,
+        url:    "/api/books?numberItem=" + getLengthItemBook()
+                        + "&indexPage=1"
+                        +"&idCategories=" + getIdCategories()
+                        +"&valueSort=" + getSort()
+                        +"&valueSearch=" + getValueSearch(),
         type: "GET",
         dataType: 'json',
         success: function(data) {
@@ -109,27 +111,33 @@ document.getElementById('btn-search').addEventListener('click', function() {
                     dataHTML += dataItem;
                 });
                 elementListBook.innerHTML = dataHTML;
+
+                loadPaginationForPage(getLengthItemBook(), 1, getIdCategories(), getSort());
+
+                document.getElementById("value-search").value = "";
             }
 
         },
         error: function(e) {
-
+            console.log("e " + e );
         }
     });
 });
 
 function getBookFollowCategories(Categories) {
-    var idCategories = Categories.split("-")[Categories.split("-").length - 1];
 
-    if (idCategories === "all") {
-        idCategories = -1;
-    }
+        var idCategories = Categories.split("-")[Categories.split("-").length - 1];
+
+        if (idCategories === "all") {
+            idCategories = -1;
+        }
     $.ajax({
         contentType: 'application/json',
-        url: "/api/books?numberItem=" + getLengthItemBook() +
-            "&indexPage=" + 1 +
-            "&idCategories=" + idCategories +
-            "&valueSort=" + getSort(),
+        url:    "/api/books?numberItem=" + getLengthItemBook()
+                                + "&indexPage=1"
+                                +"&idCategories=" + idCategories
+                                +"&valueSort=" + getSort()
+                                +"&valueSearch=" + getValueSearch(),
         type: "GET",
         dataType: 'json',
         success: function(data) {
@@ -161,7 +169,7 @@ function getBookFollowCategories(Categories) {
                 });
                 elementListBook.innerHTML = dataHTML;
 
-                loadPaginationForPage(getLengthItemBook(), 1, idCategories, getSort());
+
             }
             // clear class active
             // clear active
@@ -172,9 +180,12 @@ function getBookFollowCategories(Categories) {
             }
             // add active
             document.getElementById(Categories).classList.add('categories-active');
+
+            loadPaginationForPage(getLengthItemBook(), 1, getIdCategories(), getSort());
+
         },
         error: function(e) {
-
+            console.log("e " + e);
         }
     });
 
@@ -182,20 +193,12 @@ function getBookFollowCategories(Categories) {
 
 // sort item
 document.getElementById('select-sort').addEventListener('change', function() {
-    var valueSort = document.getElementById('select-sort').value;
-    var valueSendToSort = 0;
-    if (valueSort === "sort-item-new") {
-        valueSendToSort = 1;
-    } else if (valueSort === "sort-item-follow-name") {
-        valueSendToSort = 2;
-    }
-
-
     $.ajax({
-        url: "/api/books?numberItem=" + getLengthItemBook() +
-            "&indexPage=" + 1 +
-            "&idCategories=" + getIdCategories() +
-            "&valueSort=" + valueSendToSort,
+        url:    "/api/books?numberItem=" + getLengthItemBook()
+                                        + "&indexPage=1"
+                                        +"&idCategories=" + getIdCategories()
+                                        +"&valueSort=" + getSort()
+                                        +"&valueSearch=" + getValueSearch(),
         type: "GET",
         dataType: 'json',
         success: function(data) {
@@ -229,20 +232,9 @@ document.getElementById('select-sort').addEventListener('change', function() {
 
 });
 
-// event logout
-document.getElementById("logout").addEventListener("click", function() {
-    localStorage.removeItem('Authorization');
-    $.ajax({
-        url: "/api/auth",
-        type: "GET",
-        success: function(data) {
-            document.getElementById("login-register").style.display = "block";
-            document.getElementById("logout").style.display = "none";
 
-            document.getElementById("btn-account").innerHTML = "";
-        },
-        error: function(e) {
-            informationErrorLabel("ERROR!! logout error");
-        }
-    });
-});
+function getValueSearch(){
+   return document.getElementById("value-search").value;
+}
+
+

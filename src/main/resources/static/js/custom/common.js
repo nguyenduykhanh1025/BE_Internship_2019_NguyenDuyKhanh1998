@@ -87,3 +87,37 @@ function checkCookie() {
      }
   }
 }
+
+
+// event logout
+document.getElementById("logout").addEventListener("click", function() {
+    localStorage.removeItem('Authorization');
+    $.ajax({
+        url: "/api/auth",
+        type: "GET",
+        success: function(data) {
+            document.getElementById("login-register").style.display = "block";
+            document.getElementById("logout").style.display = "none";
+
+            document.getElementById("btn-account").innerHTML = "";
+        },
+        error: function(e) {
+            informationErrorLabel("ERROR!! logout error");
+        }
+    });
+});
+
+function formatDate(date) {
+    var monthNames = [
+        "January", "February", "March",
+        "April", "May", "June", "July",
+        "August", "September", "October",
+        "November", "December"
+    ];
+
+    var day = date.getDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+
+    return day + ' ' + monthNames[monthIndex] + ' ' + year;
+}

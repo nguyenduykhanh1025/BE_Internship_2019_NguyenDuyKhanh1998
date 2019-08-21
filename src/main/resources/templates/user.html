@@ -8,7 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css" />
     <link href="https://fonts.googleapis.com/css?family=Notable&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/grapesjs-plugin-ckeditor@0.0.9/dist/grapesjs-plugin-ckeditor.min.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/12.3.1/classic/ckeditor.js"></script>
@@ -76,13 +76,60 @@
                 <div class="btn-add-blog col-lg-4"><button type="button" class="btn btn-outline-success" id="btn-add-item">Create new book</button></div>
                 <div class="btn-add-blog col-lg-4"><button type="button" class="btn btn-outline-dark" id="btn-check-user">Check User</button></div>
             </div>
+            <div class="row cover-list-item">
+                <div class="col-lg-4">
+                    <select name="orderby cars" class="orderby custom-select" id="select-sort">
+                        <option value="sort-item" selected="selected">Sort item follow date update</option>
+                        <option value="sort-item-new" id="btn-sort-item-new">Sort item follow date create</option>
+                        <option value="sort-item-follow-name" id="btn-sort-item-follow-name">Sort item by name item</option>
+                    </select>
+                </div>
+                <div class="col-lg-4">
+                    <div class="search">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Search product..." id="value-search">
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="btn-search">Search</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <ul class="pagination" id="pagination">
+
+                    </ul>
+                </div>
+
+            </div>
             <table class="table table-striped row" id="list-post">
                 <thead class="container">
                 <tr class="row">
-                    <th class="col-lg-2">Title</th>
-                    <th class="col-lg-2">categories</th>
-                    <th class="col-lg-2">Image</th>
-                    <th class="col-lg-4">Description</th>
+                    <th class="col-lg-3">
+                        <h4>Title</h4>
+                        <div class="radio">
+                            <label>
+                                <input onclick="onClickCheckBoxSort(this.id)" id="sort-2" class="cb-sort" value="sort-item-follow-name" type="radio" name="optradio" checked>
+                                <i class="fas fa-sort-alpha-up"></i>
+                            </label>
+                        </div>
+                    </th>
+                    <th class="col-lg-2">
+                        <h4>Date Create</h4>
+                        <div class="radio">
+                            <label><input onclick="onClickCheckBoxSort(this.id)" id="sort-1" class="cb-sort" value="sort-item-new" type="radio" name="optradio" checked><i class="fas fa-sort-numeric-up-alt"></i></label>
+                        </div>
+                    </th>
+                    <th class="col-lg-2">
+                        <h4>Date Update</h4>
+                        <div class="radio">
+                            <label><input onclick="onClickCheckBoxSort(this.id)" id="sort-0" class="cb-sort" value="sort-item-create" type="radio" name="optradio" checked><i class="fas fa-sort-numeric-up-alt"></i></label>
+                        </div>
+                    </th>
+                    <th class="col-lg-1">
+                        <h4>Image</h4>
+                    </th>
+                    <th class="col-lg-1"></th>
+                    <th class="col-lg-1"></th>
                     <th class="col-lg-1"></th>
                     <th class="col-lg-1"></th>
                 </tr>
@@ -91,6 +138,12 @@
 
                 </tbody>
             </table>
+
+            <div class="row">
+                <div class="col-lg-10"></div>
+                <div class="col-lg-2"><button type="button" class="btn btn-danger" id="btn-delete-item-selected">Delete item selected</button>
+                </div>
+            </div>
         </div>
         <div class="upload-blog container" id="upload-blog">
             <div class="form-group title-blog row">
@@ -168,7 +221,7 @@
 </div>
 <script src="/js/ajax/userAJAX.js"></script>
 <script src="/js/custom/common.js"></script>
-
+<script src="/js/custom/userCustom.js"></script>
 <!--script edit textarea-->
 <script>
     let editor;

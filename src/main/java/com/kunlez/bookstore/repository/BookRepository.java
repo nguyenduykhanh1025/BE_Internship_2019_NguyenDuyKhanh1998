@@ -12,7 +12,6 @@ import java.util.Set;
 
 public interface BookRepository extends JpaRepository<BookEntity, Integer> {
     Set<BookEntity> findAllByCategoriesEntities(CategoriesEntity categoriesEntity);
-    Set<BookEntity> findByTitleIgnoreCase(String title);
 
     @Query(
             value = "select b.* from book as b join book_author as b_a on b.id = b_a.book_id join author as a on b_a.author_id = a.id where a.name = :nameAuthor",
@@ -38,15 +37,6 @@ public interface BookRepository extends JpaRepository<BookEntity, Integer> {
 
     Set<BookEntity> findAllByUserEntityOrderByUpdatedAtDesc(UserEntity userEntity);
 
-
-    Set<BookEntity> findAllByCategoriesEntitiesOrderByUpdatedAtDesc(CategoriesEntity categoriesEntity);
-    Set<BookEntity> findAllByCategoriesEntitiesOrderByCreatedAtDesc(CategoriesEntity categoriesEntity);
-    Set<BookEntity> findAllByCategoriesEntitiesOrderByTitleAsc(CategoriesEntity categoriesEntity);
-
-    Set<BookEntity> findAllByOrderByUpdatedAtDesc();
-    Set<BookEntity> findAllByOrderByCreatedAtDesc();
-    Set<BookEntity> findAllByOrderByTitleAsc();
-
     @Query(
             value = "SELECT DISTINCT b.* FROM book as b \n" +
                     "inner join book_author as b_a on b.id = b_a.book_id \n" +
@@ -62,4 +52,94 @@ public interface BookRepository extends JpaRepository<BookEntity, Integer> {
             nativeQuery = true
     )
     Set<BookEntity> findAllLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByUpdateDate(@Param("keyword") String keyword);
+
+
+    @Query(
+            value = "SELECT DISTINCT b.* FROM book as b \n" +
+                    "inner join book_author as b_a on b.id = b_a.book_id \n" +
+                    "inner join author as a on a.id = b_a.author_id \n" +
+                    "inner join book_categories as b_c on b.id = b_c.book_id \n" +
+                    "inner join categories as c on c.id = b_c.categories_id \n" +
+                    "where b.title like CONCAT('%',:keyword,'%') \n" +
+                    "or b.description like CONCAT('%',:keyword,'%') \n" +
+                    "or a.name like CONCAT('%',:keyword,'%') \n" +
+                    "or c.name like CONCAT('%',:keyword,'%') \n" +
+                    "and b.enable = true \n" +
+                    "order by b.create_at desc",
+            nativeQuery = true
+    )
+    Set<BookEntity> findAllLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByCreateDate(@Param("keyword") String keyword);
+
+
+    @Query(
+            value = "SELECT DISTINCT b.* FROM book as b \n" +
+                    "inner join book_author as b_a on b.id = b_a.book_id \n" +
+                    "inner join author as a on a.id = b_a.author_id \n" +
+                    "inner join book_categories as b_c on b.id = b_c.book_id \n" +
+                    "inner join categories as c on c.id = b_c.categories_id \n" +
+                    "where b.title like CONCAT('%',:keyword,'%') \n" +
+                    "or b.description like CONCAT('%',:keyword,'%') \n" +
+                    "or a.name like CONCAT('%',:keyword,'%') \n" +
+                    "or c.name like CONCAT('%',:keyword,'%') \n" +
+                    "and b.enable = true \n" +
+                    "order by b.title asc",
+            nativeQuery = true
+    )
+    Set<BookEntity> findAllLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByTitleBook(@Param("keyword") String keyword);
+
+
+    @Query(
+            value = "SELECT DISTINCT b.* FROM book as b \n" +
+                    "inner join book_author as b_a on b.id = b_a.book_id \n" +
+                    "inner join author as a on a.id = b_a.author_id \n" +
+                    "inner join book_categories as b_c on b.id = b_c.book_id \n" +
+                    "inner join categories as c on c.id = b_c.categories_id \n" +
+                    "where (b.title like CONCAT('%',:keyword,'%') \n" +
+                    "or b.description like CONCAT('%',:keyword,'%') \n" +
+                    "or a.name like CONCAT('%',:keyword,'%') \n" +
+                    "or c.name like CONCAT('%',:keyword,'%')) \n" +
+                    "and (b.enable = true \n" +
+                    "and c.id = :idCategories) \n" +
+                    "order by b.updated_at desc",
+            nativeQuery = true
+    )
+    Set<BookEntity> findAllByIdCategoriesLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByUpdateDate(@Param("keyword") String keyword, @Param("idCategories") int idCategories);
+
+
+
+    @Query(
+            value = "SELECT DISTINCT b.* FROM book as b \n" +
+                    "inner join book_author as b_a on b.id = b_a.book_id \n" +
+                    "inner join author as a on a.id = b_a.author_id \n" +
+                    "inner join book_categories as b_c on b.id = b_c.book_id \n" +
+                    "inner join categories as c on c.id = b_c.categories_id \n" +
+                    "where (b.title like CONCAT('%',:keyword,'%') \n" +
+                    "or b.description like CONCAT('%',:keyword,'%') \n" +
+                    "or a.name like CONCAT('%',:keyword,'%') \n" +
+                    "or c.name like CONCAT('%',:keyword,'%')) \n" +
+                    "and (b.enable = true \n" +
+                    "and c.id = :idCategories) \n" +
+                    "order by b.create_at desc",
+            nativeQuery = true
+    )
+    Set<BookEntity> findAllByIdCategoriesLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByCreateDate(@Param("keyword") String keyword, @Param("idCategories") int idCategories);
+
+
+
+    @Query(
+            value = "SELECT DISTINCT b.* FROM book as b \n" +
+                    "inner join book_author as b_a on b.id = b_a.book_id \n" +
+                    "inner join author as a on a.id = b_a.author_id \n" +
+                    "inner join book_categories as b_c on b.id = b_c.book_id \n" +
+                    "inner join categories as c on c.id = b_c.categories_id \n" +
+                    "where (b.title like CONCAT('%',:keyword,'%') \n" +
+                    "or b.description like CONCAT('%',:keyword,'%') \n" +
+                    "or a.name like CONCAT('%',:keyword,'%') \n" +
+                    "or c.name like CONCAT('%',:keyword,'%')) \n" +
+                    "and (b.enable = true \n" +
+                    "and c.id = :idCategories) \n" +
+                    "order by b.title asc",
+            nativeQuery = true
+    )
+    Set<BookEntity> findAllByIdCategoriesLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByTitleBook(@Param("keyword") String keyword, @Param("idCategories") int idCategories);
 }

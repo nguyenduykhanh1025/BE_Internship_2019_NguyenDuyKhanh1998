@@ -49,29 +49,28 @@ public class BookServices {
     private TokenProvider jwtTokenUtil;
 
 
-    public List<BookDTO> get(int numberItem, int indexPage, int idCategories,int valueSort){
+    public List<BookDTO> get(int numberItem, int indexPage, int idCategories,int valueSort, String valueSearch){
+
         List<BookDTO> bookDTOS = new ArrayList<>();
 
         Set<BookEntity> bookEntityList = new HashSet<>();
 
         if(idCategories == ID_CATEGORIES_NONE){
             if(SORT_ITEM_FOLLOW_DATE_UPDATE == valueSort){
-                bookEntityList =  bookRepository.findAllByOrderByUpdatedAtDesc();
+                bookEntityList =  bookRepository.findAllLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByUpdateDate(valueSearch);
             }else if(SORT_ITEM_FOLLOW_CREATE_AT == valueSort){
-                bookEntityList = bookRepository.findAllByOrderByCreatedAtDesc();
+                bookEntityList = bookRepository.findAllLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByCreateDate(valueSearch);
             }else{
-                bookEntityList = bookRepository.findAllByOrderByTitleAsc();
+                bookEntityList = bookRepository.findAllLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByTitleBook(valueSearch);
             }
         }
         else {
-            CategoriesEntity categoriesEntity = categoriesRepository.findById(idCategories).get();
-
             if(SORT_ITEM_FOLLOW_DATE_UPDATE == valueSort){
-                bookEntityList =  bookRepository.findAllByCategoriesEntitiesOrderByUpdatedAtDesc(categoriesEntity);
+                bookEntityList =  bookRepository.findAllByIdCategoriesLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByUpdateDate(valueSearch, idCategories);
             }else if(SORT_ITEM_FOLLOW_CREATE_AT == valueSort){
-                bookEntityList =  bookRepository.findAllByCategoriesEntitiesOrderByCreatedAtDesc(categoriesEntity);
+                bookEntityList =  bookRepository.findAllByIdCategoriesLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByCreateDate(valueSearch, idCategories);
             }else{
-                bookEntityList =  bookRepository.findAllByCategoriesEntitiesOrderByTitleAsc(categoriesEntity);
+                bookEntityList =  bookRepository.findAllByIdCategoriesLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByTitleBook(valueSearch, idCategories);
             }
         }
 
@@ -127,32 +126,49 @@ public class BookServices {
         return bookDTOList;
     }
 
-    public List<BookDTO> getAllBookFollowUser(String token){
+    public List<BookDTO> getAllBookFollowUser(String token, int numberItem, int indexPage, int valueSort, String valueSearch){
 
         String username = CommonMethot.getUserName(token, jwtTokenUtil);
 
         List<BookDTO> bookDTOList = new ArrayList<>();
 
+        Set<BookEntity> bookEntityList = new HashSet<>();
+
+        if(SORT_ITEM_FOLLOW_DATE_UPDATE == valueSort){
+            bookEntityList =  bookRepository.findAllLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByUpdateDate(valueSearch);
+        }else if(SORT_ITEM_FOLLOW_CREATE_AT == valueSort){
+            bookEntityList = bookRepository.findAllLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByCreateDate(valueSearch);
+        }else{
+            bookEntityList = bookRepository.findAllLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByTitleBook(valueSearch);
+        }
+
         // is user admin
         if(CommonMethot.getAllRole().contains("ROLE_ADMIN")){
-            List<BookDTO> bookDTOS = new ArrayList<>();
-            for(BookEntity bookEntity : bookRepository.findAll()){
-                bookDTOS.add(bookEntityToBookDTOConverter.convert(bookEntity));
+            for(BookEntity bookEntity : bookEntityList){
+                bookDTOList.add(bookEntityToBookDTOConverter.convert(bookEntity));
             }
-            Collections.sort(bookDTOS, new sortItemFollowDateUpdate());
-            return bookDTOS;
+        }
+        else {
+            UserEntity userEntity = userRepository.findByEmail(username);
+
+            for(BookEntity bookEntity : bookEntityList){
+                if(bookEntity.getUserEntity().getId() == userEntity.getId()){
+                    bookDTOList.add(bookEntityToBookDTOConverter.convert(bookEntity));
+                }
+            }
         }
 
-        UserEntity userEntity = userRepository.findByEmail(username);
+        List<BookDTO> listBookResult = new ArrayList<>();
+        if(bookDTOList.size() != 0){
+            int start =  (indexPage - 1 ) * numberItem;
+            int stop = indexPage * numberItem > bookDTOList.size() ? bookDTOList.size() : indexPage * numberItem;
 
-        for(BookEntity bookEntity : userEntity.getBookEntities()){
-            bookDTOList.add(bookEntityToBookDTOConverter.convert(bookEntity));
+            for(BookDTO bookDTO : bookDTOList.subList(start,stop)){
+                listBookResult.add(bookDTO);
+            }
         }
 
-        Collections.sort(bookDTOList, new sortItemFollowDateUpdate());
-
-
-        return bookDTOList;
+        return listBookResult;
     }
 
 
@@ -172,6 +188,30 @@ public class BookServices {
         }
 
         bookRepository.delete(bookEntity);
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> deleteBook(Integer[] listId, String token){
+
+        for(int i = 0; i< listId.length; ++i){
+            int id = listId[i];
+            if(bookRepository.findById(id) == null){
+                throw new BookNotFound();
+            }
+            BookEntity bookEntity = bookRepository.findById(id).get();
+
+            if(CommonMethot.getAllRole().contains("ROLE_ADMIN")){
+                bookRepository.delete(bookEntity);
+            }
+
+            if(!bookEntity.getUserEntity().getEmail().equals(CommonMethot.getUserName(token, jwtTokenUtil))){
+                throw new BookNotOfUser();
+            }else {
+                bookRepository.delete(bookEntity);
+            }
+        }
+
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -205,7 +245,11 @@ public class BookServices {
         // set update at
         bookDTO.setUpdateAt(new Date());
 
+
         BookEntity bookEntity = bookDTOToBookEntityConverter.convert(bookDTO);
+
+
+
         bookRepository.save(bookDTOToBookEntityConverter.convert(bookDTO));
         return bookDTO;
 

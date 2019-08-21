@@ -62,51 +62,16 @@ document.addEventListener('DOMContentLoaded', function() {
             "Authorization": localStorage.getItem('Authorization')
         },
         contentType: 'application/json',
-        url: "/api/books/user",
+        url: "/api/books/user?numberItem=6" +
+            "&indexPage=1" +
+            "&valueSort=0" +
+            "&valueSearch=",
         type: "GET",
         dataType: 'json',
         success: function(data) {
-            var dataHTML = "";
+            loadListItemForPage(data);
 
-            if (data.length == 0) {
-                var elementListBook = document.getElementById("body-list-post-user");
-                elementListBook.innerHTML = "<h2 style='color:#ababab'>No item were found....</h2>"
-            } else {
-                data.forEach(function(element) {
-                    var dataHTMLTags = "";
-                    element.categoriesDTOS.forEach(function(categories) {
-                        var data = '<li><a href="#">' + categories.name + '</a></li>';
-                        dataHTMLTags += data;
-                    });
-
-                    // get role of user
-                    var btnElementEnable = "";
-                    if (getCookie("ROLE").includes("ROLE_ADMIN")) {
-                        if (!element.enable)
-                            btnElementEnable = '<td class="col-lg-1 btn-enable-book"><button type="button" class="btn btn-warning" onClick="enableBook(this.id)" id=enable-' + element.id + '>Enable</button></td>';
-                    }
-                    var data = '<tr class="row" id="post-' + element.id + '">' +
-                        '<td class="title-blog col-lg-1"><h6>' + element.title + '</h6></td>' +
-                        '<td class="tag-blog col-lg-2">' +
-                        '<div class="dropdown">' +
-                        '<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Categories' +
-                        '<span class="caret"></span></button>' +
-                        '<ul class="dropdown-menu" id="list-tags-user-post">' +
-                        dataHTMLTags +
-                        '</ul>' +
-                        '</div>' +
-                        '</td>' +
-                        '<td class="img-blog col-lg-2"><img src="' + element.linkImage + '"></td>' +
-                        '<td class="content-blog col-lg-3"><div style="max-height: 200px;overflow: scroll;" id="comment">' + element.description + '</div></td>' +
-                        '<td class="col-lg-1 btn-delete-blog"><button type="button" class="btn btn-danger btn-delete-post" onClick="deleteBookFollowID(this.id)" id=' + element.id + '>Delete</button></td>' +
-                        '<td class="col-lg-1 btn-update-blog"><button type="button" class="btn btn-primary" onClick="editBookFollowID(this.id)" id=' + element.id + '>Edit</button></td>' +
-                        btnElementEnable +
-                        '</tr>';
-
-                    dataHTML += data;
-                });
-                document.getElementById("body-list-post-user").innerHTML = dataHTML;
-            }
+            loadPaginationForPage(6, 1, 0);
         },
         error: function(e) {
 
@@ -346,7 +311,7 @@ document.getElementById('btn-check-user').addEventListener('click', function() {
                 }
 
                 var btnElementAddAdmin = "";
-                if(element.listNameRole.includes("ROLE_ADMIN")){
+                if (element.listNameRole.includes("ROLE_ADMIN")) {
                     btnElementAddAdmin = '<td class="col-lg-2 btn-disable-admin" id=disable-admin-' + element.id + '><button type="button" class="btn btn-warning" onClick="disableAdmin(this.id)" id=admin-' + element.id + '>Disable Admin</button></td>';
                 } else {
                     btnElementAddAdmin = '<td class="col-lg-2 btn-enable-admin" id=enable-admin-' + element.id + '><button type="button" class="btn btn-warning" onClick="enableAdmin(this.id)" id=admin-' + element.id + '>Enable Admin</button></td>';
@@ -527,18 +492,18 @@ function enableAdmin(valueId) {
 
 function disableAdmin(valueId) {
     var id = valueId.split("-")[valueId.split("-").length - 1];
-     $.ajax({
-            url: "/api/users/disableAdmin/" + id,
-            type: "PUT",
-            success: function() {
-                var elementDivOfUserDisable = document.getElementById("disable-" + valueId);
-                elementDivOfUserDisable.innerHTML = '<td class="col-lg-2 btn-enable-admin" id=enable-' + valueId + '><button type="button" class="btn btn-warning" onClick="enableAdmin(this.id)" id=' + valueId + '>Enable Admin</button></td>';
-                elementDivOfUserDisable.id = "enable-" + valueId;
-            },
-            error: function(e) {
-                console.log(e);
-            }
-        });
+    $.ajax({
+        url: "/api/users/disableAdmin/" + id,
+        type: "PUT",
+        success: function() {
+            var elementDivOfUserDisable = document.getElementById("disable-" + valueId);
+            elementDivOfUserDisable.innerHTML = '<td class="col-lg-2 btn-enable-admin" id=enable-' + valueId + '><button type="button" class="btn btn-warning" onClick="enableAdmin(this.id)" id=' + valueId + '>Enable Admin</button></td>';
+            elementDivOfUserDisable.id = "enable-" + valueId;
+        },
+        error: function(e) {
+            console.log(e);
+        }
+    });
 }
 
 function clearContentUpBook() {
@@ -547,4 +512,141 @@ function clearContentUpBook() {
     document.getElementById('information-categories-upload').textContent = '';
     document.getElementById('information-author-upload').textContent = '';
     document.getElementById('information-link-image-upload').textContent = '';
+}
+
+
+// sort item
+document.getElementById('select-sort').addEventListener('change', function() {
+    $.ajax({
+        headers: {
+            "Authorization": localStorage.getItem('Authorization')
+        },
+        url: "/api/books/user?numberItem=6" +
+            "&indexPage=1" +
+            "&valueSort=" + getSort() +
+            "&valueSearch=" + getValueSearch(),
+        type: "GET",
+        dataType: 'json',
+        success: function(data) {
+            loadListItemForPage(data);
+
+            loadPaginationForPage(6, 1, getSort());
+        },
+        error: function(e) {
+
+        }
+    });
+
+});
+
+// search in page
+document.getElementById('btn-search').addEventListener('click', function() {
+    $.ajax({
+        headers: {
+            "Authorization": localStorage.getItem('Authorization')
+        },
+        contentType: 'application/json',
+        url: "/api/books/user?numberItem=6" +
+            "&indexPage=1" +
+            "&valueSort=" + getSort() +
+            "&valueSearch=" + getValueSearch(),
+        type: "GET",
+        dataType: 'json',
+        success: function(data) {
+            loadListItemForPage(data);
+
+            loadPaginationForPage(6, 1, getSort());
+        },
+        error: function(e) {
+            console.log("e " + e);
+        }
+    });
+});
+
+
+
+// delete list Item
+document.getElementById("btn-delete-item-selected").addEventListener("click", function() {
+
+    var cbDeleteItemList = document.getElementsByClassName("cb-delete-item");
+    var listIdDeleteItem = new Array();
+
+    for (var i = 0; i < cbDeleteItemList.length; ++i) {
+        if (cbDeleteItemList[i].checked == true) {
+            var idItem = cbDeleteItemList[i].id.split("-")[cbDeleteItemList[i].id.split("-").length - 1];
+            listIdDeleteItem.push(idItem);
+        }
+    }
+    $('#exampleModal').modal('show');
+    document.getElementById("btn-modal-ok").addEventListener('click', function() {
+        $.ajax({
+            headers: {
+                "Authorization": localStorage.getItem('Authorization')
+            },
+            url: "/api/books",
+            type: "DELETE",
+            data: {
+                listId: listIdDeleteItem
+            },
+            dataType: 'json',
+            success: function(data) {
+                $.ajax({
+                    headers: {
+                        "Authorization": localStorage.getItem('Authorization')
+                    },
+                    contentType: 'application/json',
+                    url: "/api/books/user?numberItem=6" +
+                        "&indexPage=" + getIndexCurrent() +
+                        "&valueSort=" + getSort() +
+                        "&valueSearch=" + getValueSearch(),
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(data) {
+                        loadListItemForPage(data);
+                    },
+                    error: function(e) {
+                        console.log("e " + e);
+                    }
+                });
+            },
+            error: function(e) {
+                console.log("e " + e);
+            }
+        });
+        $('#exampleModal').modal('hide');
+    });
+
+});
+
+// event in select check bok sort
+function onClickCheckBoxSort(valueSort){
+    var indexSort = valueSort.split("-")[valueSort.split("-").length - 1];
+
+    if(indexSort == 0){
+        document.getElementById("select-sort").value = "sort-item";
+    }else if(indexSort == 1){
+        document.getElementById("select-sort").value = "sort-item-new";
+    }else {
+        document.getElementById("select-sort").value = "sort-item-follow-name";
+    }
+
+    $.ajax({
+            headers: {
+                "Authorization": localStorage.getItem('Authorization')
+            },
+            url: "/api/books/user?numberItem=6" +
+                "&indexPage=1" +
+                "&valueSort=" + getSort() +
+                "&valueSearch=" + getValueSearch(),
+            type: "GET",
+            dataType: 'json',
+            success: function(data) {
+                loadListItemForPage(data);
+
+                loadPaginationForPage(6, 1, getSort());
+            },
+            error: function(e) {
+
+            }
+        });
 }

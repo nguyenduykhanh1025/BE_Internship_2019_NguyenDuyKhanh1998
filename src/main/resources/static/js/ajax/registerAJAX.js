@@ -41,7 +41,12 @@ document.getElementById('btn-register').addEventListener('click', function() {
                     data: JSON.stringify(register),
                     dataType: 'json',
                     success: function(data) {
-                        informationSuccessLabel('check email. please!!!');
+                        informationSuccessLabel('register success. please login!!!');
+                        document.getElementById('content-login').style.display = "block";
+                        document.getElementById('content-register').style.display = "none";
+
+                        document.getElementById('btn-content-login').style.color = '#ff4136';
+                        document.getElementById('btn-content-register').style.color = 'black';
                     },
                     error: function(e) {
                         informationErrorLabel("user is exist!!!");

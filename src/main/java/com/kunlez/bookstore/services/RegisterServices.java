@@ -58,17 +58,18 @@ public class RegisterServices {
         // default is member
         RoleEntity roleEntity =roleRepository.findByName("ROLE_MEMBER");
         userEntity.setRoles(new HashSet<>(Arrays.asList(roleEntity)));
+        userEntity.setEnable(true);
         userRepository.save(userEntity);
 
-        String token = jwtTokenUtil.generateToken(registerDTO);
-
-
-        // send mail
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo(registerDTO.getEmail());
-        msg.setSubject("click link to config: ");
-        msg.setText(request.getRequestURL().toString() + "/" + token);
-        javaMailSender.send(msg);
+//        String token = jwtTokenUtil.generateToken(registerDTO);
+//
+//
+//        // send mail
+//        SimpleMailMessage msg = new SimpleMailMessage();
+//        msg.setTo(registerDTO.getEmail());
+//        msg.setSubject("click link to config: ");
+//        msg.setText(request.getRequestURL().toString() + "/" + token);
+//        javaMailSender.send(msg);
 
         return ResponseEntity.ok(registerDTO);
     }

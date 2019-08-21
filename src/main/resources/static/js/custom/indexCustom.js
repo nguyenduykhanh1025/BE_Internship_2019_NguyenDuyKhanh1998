@@ -5,19 +5,20 @@ slider.value = 6;
 output.innerHTML = slider.value;
 
 slider.oninput = function() {
-    output.innerHTML = this.value;
+output.innerHTML = this.value;
     if (this.value < 6) {
         output.innerHTML = 6;
     }
     var indexPage = 1;
     var numberItem = output.innerHTML;
-    // load list book
+
     $.ajax({
         contentType: 'application/json',
-        url: "/api/books?numberItem=" + numberItem +
-                    "&indexPage=" + 1 +
-                    "&idCategories=" + getIdCategories() +
-                    "&valueSort=" + getSort(),
+        url:    "/api/books?numberItem=" + numberItem
+                                                + "&indexPage=" + indexPage
+                                                +"&idCategories=" + getIdCategories()
+                                                +"&valueSort=" + getSort()
+                                                +"&valueSearch=" + getValueSearch(),
         type: "GET",
         dataType: 'json',
         success: function(data) {
@@ -62,7 +63,8 @@ function loadPaginationForPage(numberItem,indexPage,idCategories,valueSort) {
         url:    "/api/books?numberItem=" + numberItem
                 + "&indexPage=" + indexPage
                 +"&idCategories=" + idCategories
-                +"&valueSort=" + valueSort,
+                +"&valueSort=" + valueSort
+                +"&valueSearch=" + getValueSearch(),
         type: "GET",
         dataType: 'json',
         success: function(data) {
@@ -82,7 +84,7 @@ function loadPaginationForPage(numberItem,indexPage,idCategories,valueSort) {
 
         },
         error: function(e) {
-            console.log("error");
+            console.log("error + " + error);
         }
     });
 }
@@ -100,9 +102,10 @@ function onClickIndexPage(elementIndexPag){
     $.ajax({
         contentType: 'application/json',
          url:    "/api/books?numberItem=" + getLengthItemBook()
-                        + "&indexPage=" + index
-                        +"&idCategories=" + getIdCategories()
-                        +"&valueSort=" + getSort(),
+                                                         + "&indexPage=" + index
+                                                         +"&idCategories=" + getIdCategories()
+                                                         +"&valueSort=" + getSort()
+                                                         +"&valueSearch=" + getValueSearch(),
         type: "GET",
         dataType: 'json',
         success: function(data) {
@@ -181,3 +184,4 @@ function getIndexCurrent(){
                 }
             }
 }
+

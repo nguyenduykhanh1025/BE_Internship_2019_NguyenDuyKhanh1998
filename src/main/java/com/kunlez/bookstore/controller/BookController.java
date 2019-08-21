@@ -3,6 +3,7 @@ package com.kunlez.bookstore.controller;
 import com.kunlez.bookstore.DTO.BookDTO;
 import com.kunlez.bookstore.services.BookServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
@@ -34,8 +35,13 @@ public class BookController {
 
 
     @GetMapping("/user")
-    public List<BookDTO> getAllBookFollowUser(@RequestHeader("Authorization") String token){
-        return bookServices.getAllBookFollowUser(token);
+    public List<BookDTO> getAllBookFollowUser(
+                            @RequestHeader("Authorization") String token,
+                            @RequestParam(name = "numberItem") int numberItem,
+                            @RequestParam(name="indexPage") int indexPage,
+                            @RequestParam(name="valueSort") int valueSort,
+                            @RequestParam(name="valueSearch") String valueSearch){
+        return bookServices.getAllBookFollowUser(token, numberItem, indexPage, valueSort, valueSearch);
     }
 
     @GetMapping("/search")
@@ -47,6 +53,12 @@ public class BookController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteBook(@PathVariable int id, @RequestHeader("Authorization") String token){
        return bookServices.deleteBook(id, token);
+    }
+
+    @Secured("ROLE_MEMBER")
+    @DeleteMapping
+    public ResponseEntity<?> deleteBook(@RequestParam(value = "listId[]") Integer[] listId, @RequestHeader("Authorization") String token){
+        return bookServices.deleteBook(listId, token);
     }
 
     @Secured(("ROLE_MEMBER"))
@@ -87,9 +99,10 @@ public class BookController {
     public List<BookDTO> get(@RequestParam(name = "numberItem") int numberItem,
                              @RequestParam(name="indexPage") int indexPage,
                              @RequestParam(name="idCategories") int idCategories,
-                             @RequestParam(name="valueSort") int valueSort
+                             @RequestParam(name="valueSort") int valueSort,
+                             @RequestParam(name="valueSearch") String valueSearch
                             ){
 
-        return bookServices.get(numberItem, indexPage, idCategories, valueSort);
+        return bookServices.get(numberItem, indexPage, idCategories, valueSort, valueSearch);
     }
 }

@@ -53,3 +53,7 @@
 }
 
 .content-wrapper-detail .content-item .content-detail-item ul li {float: left;margin-left: 10px;}
+
+#logout {
+    display: none;
+}

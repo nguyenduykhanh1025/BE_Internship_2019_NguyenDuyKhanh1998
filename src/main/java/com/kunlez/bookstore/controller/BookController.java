@@ -44,6 +44,14 @@ public class BookController {
         return bookServices.getAllBookFollowUser(token, numberItem, indexPage, valueSort, valueSearch);
     }
 
+    @GetMapping("/user/length")
+    public int getLenghtBookFolowUser(
+            @RequestHeader("Authorization") String token,
+            @RequestParam(name="valueSort") int valueSort,
+            @RequestParam(name="valueSearch") String valueSearch){
+        return bookServices.getLenghtBookFolowUser(token, valueSort, valueSearch);
+    }
+
     @GetMapping("/search")
     public List<BookDTO> getAllBookFollowCategories(@RequestParam(name = "valueSearch") String valueSearch){
         return bookServices.getAllBookSearchByKeyword(valueSearch);
@@ -104,5 +112,14 @@ public class BookController {
                             ){
 
         return bookServices.get(numberItem, indexPage, idCategories, valueSort, valueSearch);
+    }
+
+    @GetMapping("/size")
+    public int getSizeOfListBook(@RequestParam(name="idCategories") int idCategories,
+                             @RequestParam(name="valueSort") int valueSort,
+                             @RequestParam(name="valueSearch") String valueSearch
+    ){
+
+        return bookServices.getSizeOfListBook(idCategories, valueSort, valueSearch);
     }
 }

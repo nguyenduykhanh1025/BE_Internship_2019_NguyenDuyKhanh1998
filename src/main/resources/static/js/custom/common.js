@@ -100,6 +100,8 @@ document.getElementById("logout").addEventListener("click", function() {
             document.getElementById("logout").style.display = "none";
 
             document.getElementById("btn-account").innerHTML = "";
+
+            location.replace("/");
         },
         error: function(e) {
             informationErrorLabel("ERROR!! logout error");

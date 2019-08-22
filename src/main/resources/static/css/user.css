@@ -96,13 +96,7 @@ div#alert-infomation {
     font-weight: 100;
     margin-left: 5px;
 }
-.ck.ck-reset.ck-editor.ck-rounded-corners {
-    width: 100%;
-}
 
-.ck-blurred.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline {
-    height: 200px;
-}
 .upload-blog select {
     height: max-content;
 }
@@ -116,7 +110,7 @@ div#alert-infomation {
     background-color: #999966;
 }
 
-.cover-list-item {
+.content-cover-item {
     margin-top: 40px;
 }
 .cover-list-item ul.pagination {
@@ -128,4 +122,11 @@ div#alert-infomation {
 
 #btn-delete-item-selected {
     font-size: 12px;
+}
+.ck-editor__editable_inline {
+    min-height: 180px;
+}
+
+.ck.ck-reset.ck-editor.ck-rounded-corners {
+    width: 100%;
 }

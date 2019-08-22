@@ -49,3 +49,7 @@
 .page-link-active {
     background-color: #d6d6c2;
 }
+.row.footer {
+    height: 20px;
+    margin-top: 20px;
+}

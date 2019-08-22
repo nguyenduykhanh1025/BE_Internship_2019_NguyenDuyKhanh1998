@@ -1,12 +1,8 @@
 function loadListItemForPage(data){
     var dataHTML = "";
 
-                if (data.length == 0) {
-                    var elementListBook = document.getElementById("body-list-post-user");
-                    elementListBook.innerHTML = "<h2 style='color:#ababab'>No item were found....</h2>"
-                } else {
+
                     data.forEach(function(element) {
-                        console.log(element);
                         var dataHTMLTags = "";
                         element.categoriesDTOS.forEach(function(categories) {
                             var data = '<li><a href="#">' + categories.name + '</a></li>';
@@ -30,7 +26,7 @@ function loadListItemForPage(data){
                             '<td class="tag-blog col-lg-2">' +
                                 formatDate(new Date(element.updateAt)) +
                              '</td>' +
-                            '<td class="img-blog col-lg-1"><img src="' + element.linkImage + '"></td>' +
+                            '<td class="img-blog col-lg-1"><img src="' + element.linkImage + '" alt="Image not found"></td>' +
                             '<td class="col-lg-1 btn-delete-blog"><button type="button" class="btn btn-danger btn-delete-post" onClick="deleteBookFollowID(this.id)" id=' + element.id + '>Delete</button></td>' +
                             '<td class="col-lg-1 btn-update-blog"><button type="button" class="btn btn-primary" onClick="editBookFollowID(this.id)" id=' + element.id + '>Edit</button></td>' +
                                 btnElementEnable +
@@ -40,7 +36,7 @@ function loadListItemForPage(data){
                         dataHTML += data;
                     });
                     document.getElementById("body-list-post-user").innerHTML = dataHTML;
-                }
+
 }
 
 function getIndexCurrent(){
@@ -85,14 +81,11 @@ function getValueSearch(){
 }
 
 function loadPaginationForPage(numberItem,indexPage,valueSort) {
-
     $.ajax({
         headers: {
                     "Authorization": localStorage.getItem('Authorization')
                 },
-        url:    "/api/books/user?numberItem=" + numberItem
-                + "&indexPage=" + indexPage
-                +"&valueSort=" + valueSort
+        url:    "/api/books/user/length?valueSort=" + valueSort
                 +"&valueSearch=" + getValueSearch(),
         type: "GET",
         dataType: 'json',
@@ -100,12 +93,15 @@ function loadPaginationForPage(numberItem,indexPage,valueSort) {
 
             var elementHTML = document.getElementById('pagination');
             var dataHTML = '<li class="page-item"><a class="page-link" onClick="onClickIndexPage(this.id)" id="index_previous">Previous</a></li>';
-            dataHTML += '<li class="page-item"><a class="page-link page-link-active" onClick="onClickIndexPage(this.id)" id = index_' + 1 + '>1</a></li>';
 
-            var lengthIndexPage = data.length / numberItem % 2 == 0 ? data.length / numberItem : data.length / numberItem + 1;
+            var lengthIndexPage = data % numberItem === 0 ? data / numberItem : data / numberItem + 1;
 
-            for (var i = 2; i <= lengthIndexPage; ++i) {
-                dataHTML += '<li class="page-item"><a class="page-link"  onClick="onClickIndexPage(this.id)" id= index_' + i + '>' + i + '</a></li>';
+            for (var i = 1; i <= lengthIndexPage; ++i) {
+                if(i === indexPage){
+                    dataHTML += '<li class="page-item"><a class="page-link page-link-active" onClick="onClickIndexPage(this.id)" id = index_' + i + '>'+ i +'</a></li>';
+                }else {
+                    dataHTML += '<li class="page-item"><a class="page-link"  onClick="onClickIndexPage(this.id)" id= index_' + i + '>' + i + '</a></li>';
+                }
             }
             dataHTML += ' <li class="page-item"><a class="page-link" onClick="onClickIndexPage(this.id)" id="index_next">Next</a></li>';
 

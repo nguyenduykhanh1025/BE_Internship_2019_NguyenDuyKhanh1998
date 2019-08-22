@@ -15,13 +15,13 @@ document.addEventListener('DOMContentLoaded', function() {
             // list author
             var dataAuthorList = "";
             data.authorDTOS.forEach(function(element) {
-                dataAuthorList += '<li class="author-item"><a href="/author/' + element.name + '"><span class="badge badge-dark">' + element.name + '</span></a></li>';
+                dataAuthorList += '<li class="author-item"><span class="badge badge-dark" onClick="onClickSearchTag(this)">' + element.name + '</span></li>';
             });
 
             // list categories
             var dataCategoriesList = "";
             data.categoriesDTOS.forEach(function(element) {
-                dataCategoriesList = '<li class="author-item"><a href="/author/' + element.name + '"><span class="badge badge-dark">' + element.name + '</span></a></li>';
+                dataCategoriesList = '<li class="author-item"><span class="badge badge-dark" onClick="onClickSearchTag(this)" id="categories-' + element.id + '">' + element.name + '</span></li>';
             });
             var dataHTML = '<div class="content-item row">' +
                 '<div class="image-item col-lg-4">' +
@@ -231,3 +231,8 @@ function parseJwt () {
 
     return JSON.parse(jsonPayload);
 };
+
+function onClickSearchTag(data){
+    sessionStorage.setItem("nameSearch", data.innerHTML);
+    location.replace("/");
+}

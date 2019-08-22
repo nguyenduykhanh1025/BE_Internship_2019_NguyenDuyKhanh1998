@@ -12,7 +12,6 @@
     <link href="https://fonts.googleapis.com/css?family=Notable&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/grapesjs-plugin-ckeditor@0.0.9/dist/grapesjs-plugin-ckeditor.min.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/12.3.1/classic/ckeditor.js"></script>
-    <script src="https://cdn.ckeditor.com/4.12.1/standard/ckeditor.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/user.css">
     <link rel="stylesheet" type="text/css" href="/css/header.css">
     <link rel="stylesheet" type="text/css" href="/css/common.css">
@@ -44,6 +43,9 @@
             </div>
         </div>
         <div class="header container">
+            <div class="search">
+
+            </div>
             <ul class="row">
                 <li class="col-lg-1">
                 </li>
@@ -60,9 +62,13 @@
                 </li>
                 <li class="col-lg-1"></li>
                 <li class="col-lg-1"></li>
-                <li class="col-lg-1"></li>
-                <li class="col-lg-1" id="btn-account">
-                    <a href="#"><i class="fa fa-user"></i></a>
+                <li class="col-lg-1">
+                    <a href="/user" id="btn-account">
+
+                    </a>
+                </li>
+                <li class="col-lg-1" id="logout">
+                    <a >Logout</a>
                 </li>
                 <li class="col-lg-1" id="login-register">
                     <a href="/login">Login</a>
@@ -76,7 +82,7 @@
                 <div class="btn-add-blog col-lg-4"><button type="button" class="btn btn-outline-success" id="btn-add-item">Create new book</button></div>
                 <div class="btn-add-blog col-lg-4"><button type="button" class="btn btn-outline-dark" id="btn-check-user">Check User</button></div>
             </div>
-            <div class="row cover-list-item">
+            <div class="row content-cover-item">
                 <div class="col-lg-4">
                     <select name="orderby cars" class="orderby custom-select" id="select-sort">
                         <option value="sort-item" selected="selected">Sort item follow date update</option>
@@ -102,7 +108,7 @@
 
             </div>
             <table class="table table-striped row" id="list-post">
-                <thead class="container">
+                <thead class="container cover-list-item">
                 <tr class="row">
                     <th class="col-lg-3">
                         <h4>Title</h4>
@@ -139,9 +145,9 @@
                 </tbody>
             </table>
 
-            <div class="row">
+            <div class="row content-cover-item">
                 <div class="col-lg-10"></div>
-                <div class="col-lg-2"><button type="button" class="btn btn-danger" id="btn-delete-item-selected">Delete item selected</button>
+                <div class="col-lg-2 cover-list-item"><button type="button" class="btn btn-danger" id="btn-delete-item-selected">Delete item selected</button>
                 </div>
             </div>
         </div>
@@ -216,6 +222,11 @@
             <div class="row">
                 <button type="button" class="btn btn-success col-lg-12" id="btn-up-blog">Đăng bài viết</button>
             </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row footer">
+
         </div>
     </div>
 </div>

@@ -88,6 +88,31 @@ public class BookServices {
         return bookDTOS;
     }
 
+    public int getSizeOfListBook(int idCategories,int valueSort, String valueSearch){
+        Set<BookEntity> bookEntityList = new HashSet<>();
+
+        if(idCategories == ID_CATEGORIES_NONE){
+            if(SORT_ITEM_FOLLOW_DATE_UPDATE == valueSort){
+                bookEntityList =  bookRepository.findAllLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByUpdateDate(valueSearch);
+            }else if(SORT_ITEM_FOLLOW_CREATE_AT == valueSort){
+                bookEntityList = bookRepository.findAllLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByCreateDate(valueSearch);
+            }else{
+                bookEntityList = bookRepository.findAllLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByTitleBook(valueSearch);
+            }
+        }
+        else {
+            if(SORT_ITEM_FOLLOW_DATE_UPDATE == valueSort){
+                bookEntityList =  bookRepository.findAllByIdCategoriesLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByUpdateDate(valueSearch, idCategories);
+            }else if(SORT_ITEM_FOLLOW_CREATE_AT == valueSort){
+                bookEntityList =  bookRepository.findAllByIdCategoriesLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByCreateDate(valueSearch, idCategories);
+            }else{
+                bookEntityList =  bookRepository.findAllByIdCategoriesLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByTitleBook(valueSearch, idCategories);
+            }
+        }
+
+
+        return bookEntityList.size();
+    }
     public List<BookDTO> getBookPagination(int indexPage, int numberItem){
         List<BookDTO> bookDTOList = new ArrayList<>();
 
@@ -171,7 +196,42 @@ public class BookServices {
         return listBookResult;
     }
 
+    public int getLenghtBookFolowUser(String token, int valueSort, String valueSearch){
 
+        String username = CommonMethot.getUserName(token, jwtTokenUtil);
+
+        List<BookDTO> bookDTOList = new ArrayList<>();
+
+        Set<BookEntity> bookEntityList = new HashSet<>();
+
+        if(SORT_ITEM_FOLLOW_DATE_UPDATE == valueSort){
+            bookEntityList =  bookRepository.findAllLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByUpdateDate(valueSearch);
+        }else if(SORT_ITEM_FOLLOW_CREATE_AT == valueSort){
+            bookEntityList = bookRepository.findAllLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByCreateDate(valueSearch);
+        }else{
+            bookEntityList = bookRepository.findAllLikeTitleLikeDescriptionNameAuthorLikeNameAuthorOrderByTitleBook(valueSearch);
+        }
+
+        // is user admin
+        if(CommonMethot.getAllRole().contains("ROLE_ADMIN")){
+            for(BookEntity bookEntity : bookEntityList){
+                bookDTOList.add(bookEntityToBookDTOConverter.convert(bookEntity));
+            }
+        }
+        else {
+            UserEntity userEntity = userRepository.findByEmail(username);
+
+            for(BookEntity bookEntity : bookEntityList){
+                if(bookEntity.getUserEntity().getId() == userEntity.getId()){
+                    bookDTOList.add(bookEntityToBookDTOConverter.convert(bookEntity));
+                }
+            }
+        }
+
+
+
+        return bookDTOList.size();
+    }
     public ResponseEntity<?> deleteBook(int id, String token){
 
         if(bookRepository.findById(id) == null){
@@ -248,9 +308,12 @@ public class BookServices {
 
         BookEntity bookEntity = bookDTOToBookEntityConverter.convert(bookDTO);
 
+        if(CommonMethot.getAllRole().contains("ROLE_ADMIN")){
+            bookEntity.setEnable(true);
+            bookDTO.setEnable(true);
+        }
 
-
-        bookRepository.save(bookDTOToBookEntityConverter.convert(bookDTO));
+        bookRepository.save(bookEntity);
         return bookDTO;
 
     }

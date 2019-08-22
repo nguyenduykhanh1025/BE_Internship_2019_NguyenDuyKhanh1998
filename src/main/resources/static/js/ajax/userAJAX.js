@@ -5,6 +5,11 @@ document.getElementById("btn-add-item").addEventListener('click', function() {
     document.getElementById('btn-up-blog').value = "add-post";
     document.getElementById('btn-up-blog').innerHTML = "Đăng bài viết";
 
+    var elementContentCoverItem = document.getElementsByClassName("content-cover-item");
+
+    for(var i = 0; i< elementContentCoverItem.length; ++i){
+        elementContentCoverItem[i].style.display = "none";
+    }
     //load author for create book
     var dataHTMLAuthor = "";
     $.ajax({
@@ -69,9 +74,21 @@ document.addEventListener('DOMContentLoaded', function() {
         type: "GET",
         dataType: 'json',
         success: function(data) {
-            loadListItemForPage(data);
+            if (data.length == 0) {
+                var elementListBook = document.getElementById("body-list-post-user");
 
-            loadPaginationForPage(6, 1, 0);
+                elementListBook.innerHTML = "<h2 style='color:#ababab'>No item were found....</h2>";
+
+                var elementCoverListItem = document.getElementsByClassName("cover-list-item")
+                for (var i = 0; i < elementCoverListItem.length; ++i) {
+                    elementCoverListItem[i].style.display = "none";
+                }
+            } else {
+                loadListItemForPage(data);
+
+                loadPaginationForPage(6, 1, 0);
+            }
+
         },
         error: function(e) {
 
@@ -84,7 +101,6 @@ document.addEventListener('DOMContentLoaded', function() {
         type: "GET",
         dataType: 'json',
         success: function(data) {
-            console.log(data);
             if (!data.includes("ROLE_ADMIN")) {
                 document.getElementById('btn-check-user').style.display = 'none';
             }
@@ -248,11 +264,14 @@ document.getElementById('btn-up-blog').addEventListener('click', function() {
                 data: JSON.stringify(book),
                 dataType: 'json',
                 success: function(data) {
-                    informationSuccessLabel('Bài viết đã được chuyển đến admin phê duyệt!!!');
+                    if (data.enable) {
+                        informationSuccessLabel('Create book success!!!');
+                    } else {
+                        informationSuccessLabel('Bài viết đã được chuyển đến admin phê duyệt!!!');
+                    }
+
                 },
                 error: function(e) {
-                    console.log("dadyadyadyayd ");
-                    console.log(e);
                     informationErrorLabel('Vui lòng nhập đúng các trường!!!');
                 }
             });
@@ -287,11 +306,24 @@ document.getElementById('btn-up-blog').addEventListener('click', function() {
 
     }
 
+    document.getElementById("title-blog").value ="";
+    editor.setData("");
+    document.getElementById("list-tags-opption").innerHTML ="";
+    document.getElementById("list-author-opption").innerHTML ="";
+    document.getElementById("link-img").value ="";
+
 });
 
 
 // display list user when click btn check user
 document.getElementById('btn-check-user').addEventListener('click', function() {
+    document.getElementById("upload-blog").style.display = "none";
+    document.getElementById("list-post").style.display = "block";
+    var elementContentCoverItem = document.getElementsByClassName("content-cover-item");
+
+        for(var i = 0; i< elementContentCoverItem.length; ++i){
+            elementContentCoverItem[i].style.display = "none";
+        }
     //load data for page
     $.ajax({
         contentType: 'application/json',
@@ -507,6 +539,7 @@ function disableAdmin(valueId) {
 }
 
 function clearContentUpBook() {
+
     document.getElementById('information-title-upload').textContent = '';
     document.getElementById('information-content-upload').textContent = '';
     document.getElementById('information-categories-upload').textContent = '';
@@ -602,7 +635,43 @@ document.getElementById("btn-delete-item-selected").addEventListener("click", fu
                     type: "GET",
                     dataType: 'json',
                     success: function(data) {
-                        loadListItemForPage(data);
+
+                        // call agian if data ai index is null
+                        if (data.length == 0) {
+                            var valueIndex = getIndexCurrent();
+
+                            if(valueIndex == 1){
+                                location.replace("/user");
+                            }
+                            console.log(valueIndex);
+                            valueIndex--;
+
+                            $.ajax({
+                                headers: {
+                                    "Authorization": localStorage.getItem('Authorization')
+                                },
+                                contentType: 'application/json',
+                                url: "/api/books/user?numberItem=6" +
+                                    "&indexPage=" + valueIndex +
+                                    "&valueSort=" + getSort() +
+                                    "&valueSearch=" + getValueSearch(),
+                                type: "GET",
+                                dataType: 'json',
+                                success: function(data) {
+
+                                    loadListItemForPage(data);
+
+                                    console.log(valueIndex);
+                                    loadPaginationForPage(6, valueIndex, getSort());
+                                },
+                                error: function(e) {
+                                    console.log("e " + e);
+                                }
+                            });
+                        }else {
+                            loadListItemForPage(data);
+                        }
+
                     },
                     error: function(e) {
                         console.log("e " + e);
@@ -619,34 +688,34 @@ document.getElementById("btn-delete-item-selected").addEventListener("click", fu
 });
 
 // event in select check bok sort
-function onClickCheckBoxSort(valueSort){
+function onClickCheckBoxSort(valueSort) {
     var indexSort = valueSort.split("-")[valueSort.split("-").length - 1];
 
-    if(indexSort == 0){
+    if (indexSort == 0) {
         document.getElementById("select-sort").value = "sort-item";
-    }else if(indexSort == 1){
+    } else if (indexSort == 1) {
         document.getElementById("select-sort").value = "sort-item-new";
-    }else {
+    } else {
         document.getElementById("select-sort").value = "sort-item-follow-name";
     }
 
     $.ajax({
-            headers: {
-                "Authorization": localStorage.getItem('Authorization')
-            },
-            url: "/api/books/user?numberItem=6" +
-                "&indexPage=1" +
-                "&valueSort=" + getSort() +
-                "&valueSearch=" + getValueSearch(),
-            type: "GET",
-            dataType: 'json',
-            success: function(data) {
-                loadListItemForPage(data);
+        headers: {
+            "Authorization": localStorage.getItem('Authorization')
+        },
+        url: "/api/books/user?numberItem=6" +
+            "&indexPage=1" +
+            "&valueSort=" + getSort() +
+            "&valueSearch=" + getValueSearch(),
+        type: "GET",
+        dataType: 'json',
+        success: function(data) {
+            loadListItemForPage(data);
 
-                loadPaginationForPage(6, 1, getSort());
-            },
-            error: function(e) {
+            loadPaginationForPage(6, 1, getSort());
+        },
+        error: function(e) {
 
-            }
-        });
+        }
+    });
 }

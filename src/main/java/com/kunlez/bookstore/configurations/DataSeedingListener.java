@@ -35,7 +35,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
     private void addUserIfMissing(String email, String password, String... roles){
         if (userRepository.findByEmail(email) == null) {
             UserEntity user = new UserEntity(email, "First name", "Last name", new BCryptPasswordEncoder().encode(password),true);
-            user.setLinkAvatar("https://thuthuatnhanh.com/wp-content/uploads/2019/08/anh-dep-585x329.jpg");
+            user.setLinkAvatar("http://thuthuat123.com/uploads/2018/01/27/Avatar-dep-nhat-83_112148.jpg");
             user.setRoles(new HashSet<>());
 
             for (String role: roles) {

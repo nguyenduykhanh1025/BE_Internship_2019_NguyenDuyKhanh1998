@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
             type: "GET",
             dataType: 'json',
             success: function(data) {
-                document.getElementById("btn-account").innerHTML = '<img src="'+ data.linkAvatar +'">';
+                document.getElementById("btn-account").innerHTML = '<img src="'+ data.linkAvatar +'" alt="Image not found">';
                 document.getElementById("login-register").style.display = "none";
                 document.getElementById("logout").style.display = "block";
             },

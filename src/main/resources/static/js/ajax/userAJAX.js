@@ -166,6 +166,8 @@ document.getElementById('btn-add-tag-new').addEventListener('click', function fu
         });
         divListTagOpption.appendChild(para);
     }
+
+    document.getElementById("tag-news").value = "";
 });
 
 
@@ -200,6 +202,8 @@ document.getElementById('btn-add-author-new').addEventListener('click', function
         });
         divListTagOpption.appendChild(para);
     }
+
+    document.getElementById("author-news").value = "";
 });
 
 
@@ -311,7 +315,8 @@ document.getElementById('btn-up-blog').addEventListener('click', function() {
     document.getElementById("list-tags-opption").innerHTML ="";
     document.getElementById("list-author-opption").innerHTML ="";
     document.getElementById("link-img").value ="";
-
+    document.getElementById("tag-news").value = "";
+    document.getElementById("author-news").value = "";
 });
 
 

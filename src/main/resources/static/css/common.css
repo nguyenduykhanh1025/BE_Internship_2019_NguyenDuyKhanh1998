@@ -1,7 +1,7 @@
 .alert.alert-danger {position: fixed;top: 0px;left: 0px;}
 #btn-account {
     height: 100%;
-    display: inline-block;
+    display: none;
 }
 #btn-account img {
     width: 56px;

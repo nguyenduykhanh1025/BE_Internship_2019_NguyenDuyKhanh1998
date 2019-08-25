@@ -48,3 +48,6 @@
     padding-left: 5px;
     color: #ababab;
 }
+.author-item {
+    cursor: pointer;
+}

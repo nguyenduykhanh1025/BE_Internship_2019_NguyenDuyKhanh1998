@@ -130,3 +130,9 @@ div#alert-infomation {
 .ck.ck-reset.ck-editor.ck-rounded-corners {
     width: 100%;
 }
+.tag-blog {
+    text-align: center;
+}
+.content-cover-user {
+    display:none;
+}

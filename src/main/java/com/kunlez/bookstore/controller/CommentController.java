@@ -19,7 +19,7 @@ public class CommentController {
 
     @Secured("ROLE_MEMBER")
     @PostMapping("/{id_book}")
-    public CommentDTO post(@RequestBody @Validated CommentDTO commentDTO, @PathVariable int id_book, @RequestHeader("Authorization") String token) throws ParseException {
+    public ResponseEntity<?> post(@RequestBody @Validated CommentDTO commentDTO, @PathVariable int id_book, @RequestHeader("Authorization") String token) throws ParseException {
         return commentServices.post(commentDTO, id_book, token);
     }
 

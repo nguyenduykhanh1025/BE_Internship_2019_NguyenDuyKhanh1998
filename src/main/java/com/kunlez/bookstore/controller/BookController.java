@@ -23,7 +23,7 @@ public class BookController {
         return bookServices.getBookPagination(indexPage, numberItem);
     }
     @GetMapping("/{id}")
-    public BookDTO getBookFollowId(@PathVariable int id){
+    public ResponseEntity<?> getBookFollowId(@PathVariable int id){
         return bookServices.getBookFollowId(id);
     }
 

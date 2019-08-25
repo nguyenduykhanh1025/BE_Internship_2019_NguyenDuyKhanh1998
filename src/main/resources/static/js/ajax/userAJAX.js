@@ -324,11 +324,13 @@ document.getElementById('btn-up-blog').addEventListener('click', function() {
 document.getElementById('btn-check-user').addEventListener('click', function() {
     document.getElementById("upload-blog").style.display = "none";
     document.getElementById("list-post").style.display = "block";
-    var elementContentCoverItem = document.getElementsByClassName("content-cover-item");
 
-        for(var i = 0; i< elementContentCoverItem.length; ++i){
-            elementContentCoverItem[i].style.display = "none";
-        }
+    var elementContentCoverItem = document.getElementsByClassName("content-cover-item");
+    for(var i = 0; i< elementContentCoverItem.length; ++i){
+        elementContentCoverItem[i].style.display = "none";
+    }
+
+    document.getElementsByClassName("content-cover-user")[0].style.display = "block";
     //load data for page
     $.ajax({
         contentType: 'application/json',
@@ -336,6 +338,8 @@ document.getElementById('btn-check-user').addEventListener('click', function() {
         type: "GET",
         dataType: 'json',
         success: function(data) {
+            loadHeaderTableForListUser();
+
             var dataHTML = "";
 
             data.forEach(function(element) {
@@ -356,8 +360,11 @@ document.getElementById('btn-check-user').addEventListener('click', function() {
                 var data = '<tr class="row" id="post-' + element.id + '">' +
                     '<td class="title-blog col-lg-4"><h6>' + element.email + '</h6></td>' +
                     '<td class="tag-blog col-lg-2">' +
-                    element.firstName + " " + element.lastName +
+                    element.firstName +
                     '</td>' +
+                    '<td class="tag-blog col-lg-2">' +
+                                        element.lastName +
+                                        '</td>' +
                     '<td class="img-blog col-lg-1"><img src="' + element.linkAvatar + '"></td>' +
                     btnElementEnable + btnElementAddAdmin +
                     '</tr>';

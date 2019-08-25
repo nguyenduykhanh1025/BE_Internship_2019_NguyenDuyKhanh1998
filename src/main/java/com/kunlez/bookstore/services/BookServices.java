@@ -131,8 +131,11 @@ public class BookServices {
         return bookDTOList;
     }
 
-    public BookDTO getBookFollowId(int id){
-        return bookEntityToBookDTOConverter.convert(bookRepository.findById(id).get());
+    public ResponseEntity<?> getBookFollowId(int id){
+        if(!bookRepository.findById(id).isPresent()){
+            throw new BookNotFound();
+        }
+        return ResponseEntity.ok(bookEntityToBookDTOConverter.convert(bookRepository.findById(id).get()));
     }
 
 

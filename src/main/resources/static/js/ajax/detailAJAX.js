@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             var dataHTML = '<div class="content-item row">' +
                 '<div class="image-item col-lg-4">' +
-                '<img src="' + data.linkImage + '" class="imge-big">' +
+                '<img src="' + data.linkImage + '" class="imge-big" alt="Image not found">' +
                 '<div class="list-image-small">' +
                 '<img src="https://auteur.g5plus.net/wp-content/uploads/2018/11/product-19-330x462.jpg" class="image-small-item">' +
                 '<img src="https://auteur.g5plus.net/wp-content/uploads/2018/11/product-04-330x462.jpg" class="image-small-item">' +
@@ -86,7 +86,9 @@ document.addEventListener('DOMContentLoaded', function() {
             elementCommentHTML.innerHTML = listComment;
         },
         error: function(e) {
-            console.log("error");
+            if(e.status === 404){
+                informationErrorLabel(e.responseText);
+            }
         }
     });
 });
@@ -137,7 +139,10 @@ document.getElementById("btn-comment").addEventListener('click', function() {
                 document.getElementById("message-comment").value = "";
             },
             error: function(e) {
-                informationErrorLabel('You are not logged in!!! please');
+                console.log(e);
+                if(e.status === 403){
+                   informationErrorLabel('You are not logged in!!! please');
+                }
             }
         });
     }

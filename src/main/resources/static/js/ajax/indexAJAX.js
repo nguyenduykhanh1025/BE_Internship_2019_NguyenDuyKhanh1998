@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-
     // load categories first
     loadCategoriesForPage();
 

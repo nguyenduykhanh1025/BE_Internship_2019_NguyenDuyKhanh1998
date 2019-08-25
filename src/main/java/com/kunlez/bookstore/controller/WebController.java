@@ -27,7 +27,7 @@ public class WebController {
     }
 
     @Secured("ROLE_MEMBER")
-    @GetMapping("/user")
+    @GetMapping("/management")
     public String user() {
         return "user";
     }

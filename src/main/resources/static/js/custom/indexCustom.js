@@ -21,7 +21,7 @@ function loadDataForPage(data) {
 
             var dataItem = ' <div class="col-lg-4 item">' +
                 '<a href="/detail/' + element.id + '"><img src="' + element.linkImage + '" class="img-item" alt="Image not found"></a>' +
-                '<h5 class="title-item"><a href="#">' + element.title + '</a></h5>' +
+                '<h5 class="title-item"><a href="/detail/' + element.id + '">' + element.title + '</a></h5>' +
                 '<div class="author">' +
                 '<ul class="list-author">' +
                 dataAuthorHTML +

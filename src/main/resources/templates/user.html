@@ -53,18 +53,14 @@
                 </li>
                 <li class="col-lg-1">
                 </li>
-                <li class="col-lg-1">
-                </li>
-                <li class="col-lg-1">
-                </li>
-                <li class="col-lg-1 center">
+                <li class="col-lg-2"></li>
+                <li class="col-lg-3 center">
                     <h1 style='font-family: "Notable", sans-serif;'><a href="/" id="index">Kunlez</a></h1>
                 </li>
-                <li class="col-lg-1"></li>
-                <li class="col-lg-1"></li>
-                <li class="col-lg-1">
-                    <a href="/user" id="btn-account">
 
+                <li class="col-lg-2">
+                    <a href="/management" id="btn-account">
+                        management
                     </a>
                 </li>
                 <li class="col-lg-1" id="logout">
@@ -78,7 +74,7 @@
         <hr>
         <div class="container content-main" id="content-main">
             <div class="row content-top">
-                <div class="tittle-user col-lg-4"><a href="/user"><button type="button" class="btn btn-outline-secondary" id="btn-user-name">NguyenDuyKhanh</button></a></div>
+                <div class="tittle-user col-lg-4"><a href="/user"><button type="button" class="btn btn-outline-secondary" id="btn-user-name">List books</button></a></div>
                 <div class="btn-add-blog col-lg-4"><button type="button" class="btn btn-outline-success" id="btn-add-item">Create new book</button></div>
                 <div class="btn-add-blog col-lg-4"><button type="button" class="btn btn-outline-dark" id="btn-check-user">Check User</button></div>
             </div>
@@ -107,38 +103,34 @@
                 </div>
 
             </div>
+
+            <div class="row content-cover-user">
+<!--                <div class="col-lg-4">-->
+<!--                    <select name="orderby cars" class="orderby custom-select" id="select-sort-user">-->
+<!--                        <option value="sort-item" selected="selected">Sort item follow date update</option>-->
+<!--                        <option value="sort-item-new" id="btn-sort-user-new">Sort item follow date create</option>-->
+<!--                        <option value="sort-item-follow-name" id="btn-sort-user-follow-name">Sort item by name item</option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--                <div class="col-lg-4">-->
+<!--                    <div class="search">-->
+<!--                        <div class="input-group mb-3">-->
+<!--                            <input type="text" class="form-control" placeholder="Search user..." id="value-search-user">-->
+<!--                            <div class="input-group-append">-->
+<!--                                <span class="input-group-text" id="btn-search-user">Search</span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-lg-4">-->
+<!--                    <ul class="pagination" id="pagination-user">-->
+
+<!--                    </ul>-->
+<!--                </div>-->
+            </div>
             <table class="table table-striped row" id="list-post">
-                <thead class="container cover-list-item">
-                <tr class="row">
-                    <th class="col-lg-3">
-                        <h4>Title</h4>
-                        <div class="radio">
-                            <label>
-                                <input onclick="onClickCheckBoxSort(this.id)" id="sort-2" class="cb-sort" value="sort-item-follow-name" type="radio" name="optradio" checked>
-                                <i class="fas fa-sort-alpha-up"></i>
-                            </label>
-                        </div>
-                    </th>
-                    <th class="col-lg-2">
-                        <h4>Date Create</h4>
-                        <div class="radio">
-                            <label><input onclick="onClickCheckBoxSort(this.id)" id="sort-1" class="cb-sort" value="sort-item-new" type="radio" name="optradio" checked><i class="fas fa-sort-numeric-up-alt"></i></label>
-                        </div>
-                    </th>
-                    <th class="col-lg-2">
-                        <h4>Date Update</h4>
-                        <div class="radio">
-                            <label><input onclick="onClickCheckBoxSort(this.id)" id="sort-0" class="cb-sort" value="sort-item-create" type="radio" name="optradio" checked><i class="fas fa-sort-numeric-up-alt"></i></label>
-                        </div>
-                    </th>
-                    <th class="col-lg-1">
-                        <h4>Image</h4>
-                    </th>
-                    <th class="col-lg-1"></th>
-                    <th class="col-lg-1"></th>
-                    <th class="col-lg-1"></th>
-                    <th class="col-lg-1"></th>
-                </tr>
+                <thead class="container cover-list-item" id="header-table">
+
                 </thead>
                 <tbody id="body-list-post-user" class="container">
 

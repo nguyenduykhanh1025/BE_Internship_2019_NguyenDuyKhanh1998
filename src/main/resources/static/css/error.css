@@ -1,0 +1,8 @@
+.row.content-error {
+    align-items: center;
+}
+
+.row.content-error h1 {
+    font-weight: 700;
+    font-size: 100px;
+}

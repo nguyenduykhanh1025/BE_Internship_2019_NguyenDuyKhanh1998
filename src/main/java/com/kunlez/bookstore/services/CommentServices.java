@@ -5,6 +5,7 @@ import com.kunlez.bookstore.common.CommonMethot;
 import com.kunlez.bookstore.configurations.TokenProvider;
 import com.kunlez.bookstore.converters.base.Converter;
 import com.kunlez.bookstore.entity.CommentEntity;
+import com.kunlez.bookstore.exception.bookException.BookNotFound;
 import com.kunlez.bookstore.exception.commentException.CommentNotFound;
 import com.kunlez.bookstore.exception.commentException.CommentNotOfUser;
 import com.kunlez.bookstore.repository.BookRepository;
@@ -41,7 +42,11 @@ public class CommentServices {
     @Autowired
     private TokenProvider jwtTokenUtil;
 
-    public CommentDTO post(CommentDTO commentDTO,int id_book, String token) throws ParseException {
+    public ResponseEntity<?> post(CommentDTO commentDTO,int id_book, String token) throws ParseException {
+
+        if(!bookRepository.findById(id_book).isPresent()){
+            throw new BookNotFound();
+        }
 
         // server only message
         commentDTO.setUpdateAt(new Date());
@@ -54,12 +59,12 @@ public class CommentServices {
         commentRepository.save(commentEntity);
 
         CommentDTO commentDTO1 = commentEntityToCommentDTOConverter.convert(commentEntity);
-        return commentDTO1;
+        return ResponseEntity.ok(commentDTO1);
     }
 
     public ResponseEntity<?> editComment(int id, CommentDTO commentDTO, String token){
 
-        if(commentRepository.findById(id) == null){
+        if(!commentRepository.findById(id).isPresent()){
             throw new CommentNotFound();
         }
         CommentEntity commentEntity = commentRepository.findById(id).get();
